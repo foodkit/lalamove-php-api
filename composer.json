@@ -16,5 +16,15 @@
             "name": "Corey Mcmahon",
             "email": "corey@foodkit.io"
         }
-    ]
+    ],
+    "autoload": {
+        "psr-4": {
+            "Lalamove\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LalamoveTests\\": "tests/"
+        }
+    }
 }
