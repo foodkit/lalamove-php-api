@@ -2,6 +2,10 @@
 
 namespace Lalamove\Resources;
 
+use Lalamove\Order;
+use Lalamove\Responses\OrderDetailsResponse;
+use Lalamove\Responses\OrderResponse;
+
 class OrdersResource extends AbstractResource
 {
     /**
@@ -17,26 +21,36 @@ class OrdersResource extends AbstractResource
     /**
      * @param $id
      * @return mixed
+     * @throws \Lalamove\Exceptions\LalamoveException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function find($id)
+    public function details($id)
     {
-        return $this->send('GET', "orders/{$id}");
+        $response = $this->send('GET', "orders/{$id}");
+        return new OrderDetailsResponse($response);
     }
 
     /**
-     *
+     * @param Order $order
+     * @return OrderResponse
+     * @throws \Lalamove\Exceptions\LalamoveException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function create($payload)
+    public function create(Order $order)
     {
-        return $this->send('POST', "orders", $payload);
+        $response = $this->send('POST', "orders", $order);
+        return new OrderResponse($response);
     }
 
     /**
-     *
+     * @param $orderId
+     * @return bool
+     * @throws \Lalamove\Exceptions\LalamoveException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function cancel($orderId)
     {
-        return $this->send('PUT', "orders/{$orderId}/cancel");
+        $this->send('PUT', "orders/{$orderId}/cancel");
+        return true;
     }
 }

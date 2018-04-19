@@ -1,6 +1,6 @@
 <?php
 
-namespace Lalamove;
+namespace Lalamove\Responses;
 
 class QuotationResponse
 {
@@ -9,7 +9,7 @@ class QuotationResponse
 
     /**
      * QuotationResponse constructor.
-     * @param $response
+     * @param object $response
      */
     public function __construct($response)
     {

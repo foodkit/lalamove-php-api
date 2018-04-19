@@ -46,20 +46,35 @@ class Quotation
     public static function make($scheduleAt, $requesterContact, $stops, $deliveries, $serviceType = 'MOTORCYCLE', $specialRequests = [], $fleetPriority = 'NONE', $promoCode = '')
     {
         $instance = new static;
+        $instance->set($scheduleAt, $requesterContact, $stops, $deliveries, $serviceType, $specialRequests, $fleetPriority, $promoCode);
+        return $instance;
+    }
+
+    /**
+     * @param $scheduleAt
+     * @param $requesterContact
+     * @param $stops
+     * @param $deliveries
+     * @param $serviceType
+     * @param $specialRequests
+     * @param $fleetPriority
+     * @param $promoCode
+     */
+    protected function set($scheduleAt, $requesterContact, $stops, $deliveries, $serviceType, $specialRequests, $fleetPriority, $promoCode)
+    {
         if ($scheduleAt instanceof Carbon) {
-            $instance->setScheduleAt($scheduleAt);
+            $this->setScheduleAt($scheduleAt);
         } else {
-            $instance->scheduleAt = $scheduleAt;
+            $this->scheduleAt = $scheduleAt;
         }
 
-        $instance->serviceType = $serviceType;
-        $instance->requesterContact = $requesterContact;
-        $instance->stops = $stops;
-        $instance->deliveries = $deliveries;
-        $instance->specialRequests = $specialRequests;
-        $instance->fleetPriority = $fleetPriority;
-        $instance->promoCode = $promoCode;
-        return $instance;
+        $this->serviceType = $serviceType;
+        $this->requesterContact = $requesterContact;
+        $this->stops = $stops;
+        $this->deliveries = $deliveries;
+        $this->specialRequests = $specialRequests;
+        $this->fleetPriority = $fleetPriority;
+        $this->promoCode = $promoCode;
     }
 
     /**

@@ -2,6 +2,9 @@
 
 namespace Lalamove\Resources;
 
+use Lalamove\Responses\DriverLocationResponse;
+use Lalamove\Responses\DriverResponse;
+
 class DriversResource extends AbstractResource
 {
     /**
@@ -14,18 +17,28 @@ class DriversResource extends AbstractResource
     }
 
     /**
-     *
+     * @param $orderId
+     * @param $driverId
+     * @return DriverResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Lalamove\Exceptions\LalamoveException
      */
     public function get($orderId, $driverId)
     {
-        return $this->send('GET', "orders/{$orderId}/{$driverId}");
+        $response = $this->send('GET', "orders/{$orderId}/{$driverId}");
+        return new DriverResponse($response);
     }
 
     /**
-     *
+     * @param $orderId
+     * @param $driverId
+     * @return DriverLocationResponse
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Lalamove\Exceptions\LalamoveException
      */
     public function getLocation($orderId, $driverId)
     {
-        return $this->send('GET', "orders/{$orderId}/{$driverId}/location");
+        $response = $this->send('GET', "orders/{$orderId}/{$driverId}/location");
+        return new DriverLocationResponse($response);
     }
 }

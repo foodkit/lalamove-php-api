@@ -8,13 +8,6 @@ Built and maintained by [Foodkit](https://foodkit.io).
 
 This library is still a WORK IN PROGRESS. We're in the process of porting our Internal client library across into this public version and expect to be ready for a v1.0 release in late-April.
 
-- [x] Quotation create
-- [ ] Order create
-- [ ] Order details 
-- [ ] Driver information
-- [ ] Driver location
-- [ ] Cancel order
-
 ## Design goals ##
 
 * **Lean on the IDE**. We should leverage the IDE (autocompletion) to _help_ the developer to use the library.
