@@ -6,7 +6,7 @@ Built and maintained by [Foodkit](https://foodkit.io).
 
 ## Development progress ##
 
-This library is still a WORK IN PROGRESS. We're in the process of porting our Internal client library across into this public version and expect to be ready for a v1.0 release in late-April.
+This library is still a _WORK IN PROGRESS_. We're in the process of porting our Internal client library across into this public version and expect to be ready for a v1.0 release in late-April. Feel free to use the library before then but please note that the API may change.
 
 ## Design goals ##
 
@@ -21,11 +21,11 @@ This library is still a WORK IN PROGRESS. We're in the process of porting our In
 $ ./vendor/bin/phpunit tests/
 PHPUnit 7.0.2 by Sebastian Bergmann and contributors.
 
-.......                                                             7 / 7 (100%)
+...........                                                       11 / 11 (100%)
 
-Time: 83 ms, Memory: 4.00MB
+Time: 116 ms, Memory: 4.00MB
 
-OK (7 tests, 17 assertions)
+OK (11 tests, 23 assertions)
 ```
 
 ## Using the library ##
@@ -35,14 +35,26 @@ OK (7 tests, 17 assertions)
 
 $settings = new \Lalamove\Client\Settings(
     'https://sandbox-rest.lalamove.com',
-    'wgmsqqh208fxic9vcqwruk2tciicielf',
-    'kGEX69NLd33+J/FQGdx8jOLAO1JZVPrHzQpuZDrWGxlftbu2tKFiVkptTSfPaj==',
-    \Lalamove\Client\Settings::COUNTRY_SINGAPORE
+    // These are fake, don't try and use them:
+    'wgmsqqh208fxic9vcqwruk2tciicielf', // customerId
+    'kGEX69NLd33+J/FQGdx8jOLAO1JZVPrHzQpuZDrWGxlftbu2tKFiVkptTSfPaj==', // privateKey
+    \Lalamove\Client\Settings::COUNTRY_SINGAPORE // country
 );
 
 $client = new Lalamove\Client\Client($settings);
 
-$quotation = $client->quotations()->create([]);
+// Create a quote:
+$quotationResponse = $client->quotations()->create($quotation);
+
+// Create an order:
+$order = \Lalamove\Order::makeFromQuote($quotation, $quotationResponse, 'unique-order-id');
+$orderResponse = $client->orders()->create($order);
+
+// Fetch order details:
+$details = $client->orders()->details($orderResponse->customerOrderId);
+
+// Cancel the order:
+$details = $client->orders()->cancel($orderResponse->customerOrderId);
 ```
 
 ## Errors ##

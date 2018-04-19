@@ -23,7 +23,7 @@ class OrdersResourceTest extends BaseTest
 
         $this->expectException(PaymentRequiredException::class);
         $resource = new OrdersResource(new DummySettings(), $transport);
-        $resource->find('doesn\'t matter what this is');
+        $resource->details('doesn\'t matter what this is');
     }
 }
 
