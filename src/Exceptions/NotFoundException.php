@@ -2,7 +2,7 @@
 
 namespace Lalamove\Exceptions;
 
-class NotFoundException extends \Exception
+class NotFoundException extends LalamoveException
 {
-    
+    protected static $statusCode = 404;
 }

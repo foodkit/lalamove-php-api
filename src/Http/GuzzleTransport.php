@@ -7,6 +7,7 @@ class GuzzleTransport implements TransportInterface
     /**
      * @param LalamoveRequest $request
      * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
     public function send(LalamoveRequest $request)
     {

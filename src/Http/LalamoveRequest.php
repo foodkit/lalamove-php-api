@@ -2,6 +2,11 @@
 
 namespace Lalamove\Http;
 
+use Lalamove\Http\Clock\PslTimeClock;
+use Lalamove\Http\Clock\ClockInterface;
+use Lalamove\Http\Uuid\PslUniqidGenerator;
+use Lalamove\Http\Uuid\UuidGeneratorInterface;
+
 class LalamoveRequest
 {
     /** @var \Lalamove\Client\Settings */
@@ -12,13 +17,38 @@ class LalamoveRequest
     protected $uri;
     /** @var array */
     protected $params;
+    /** @var UuidGeneratorInterface */
+    protected $uuid;
+    /** @var ClockInterface */
+    protected $clock;
 
-    public function __construct($settings, $method = 'GET', $uri = '', $params = [])
+    /**
+     * LalamoveRequest constructor.
+     * @param $settings
+     * @param string $method
+     * @param string $uri
+     * @param array $params
+     * @param UuidGeneratorInterface|null $uuid
+     * @param ClockInterface $clock
+     */
+    public function __construct($settings, $method = 'GET', $uri = '', $params = [], UuidGeneratorInterface $uuid = null, ClockInterface $clock = null)
     {
         $this->settings = $settings;
         $this->method = $method;
         $this->uri = $uri;
         $this->params = $params;
+
+        // Dependency injected for easier unit testing:
+
+        if (is_null($uuid)) {
+            $uuid = new PslUniqidGenerator();
+        }
+        $this->uuid = $uuid;
+
+        if (is_null($clock)) {
+            $clock = new PslTimeClock();
+        }
+        $this->clock = $clock;
     }
 
     /**
@@ -42,10 +72,10 @@ class LalamoveRequest
      */
     public function getFullPath()
     {
-        $endpoint = $this->settings->endpoint;
+        $host = $this->settings->host;
         $version = $this->settings->version;
 
-        return "{$endpoint}/v{$version}/{$this->uri}";
+        return "{$host}/v{$version}/{$this->uri}";
     }
 
     /**
@@ -61,13 +91,14 @@ class LalamoveRequest
      */
     public function getHeaders()
     {
-        $key = $this->settings->key;
-        $secret = $this->settings->secret;
+        $customerId = $this->settings->customerId;
+        $privateKey = $this->settings->privateKey;
         $country = $this->settings->country;
 
-        $requestTime = time() * 1000;
+        $requestTime = $this->clock->getCurrentTimeInMilliseconds();
 
-        $uuid = uniqid();
+        $uuid = $this->uuid->getUuid();
+
         $body = json_encode($this->params);
         $message = "{$requestTime}\r\n{$this->method}\r\n{$this->uri}\r\n\r\n";
 
@@ -75,10 +106,10 @@ class LalamoveRequest
             $message .= $body;
         }
 
-        $signature = hash_hmac("sha256", $message, $secret);
+        $signature = hash_hmac("sha256", $message, $privateKey);
 
         return [
-            'Authorization' => "hmac {$key}:{$requestTime}:{$signature}",
+            'Authorization' => "hmac {$customerId}:{$requestTime}:{$signature}",
             'Accept' => 'application/json',
             'Content-type' => 'application/json; charset=utf-8',
             'X-LLM-Country' => strtoupper($country),

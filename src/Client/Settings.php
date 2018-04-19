@@ -4,25 +4,37 @@ namespace Lalamove\Client;
 
 class Settings
 {
-    public $endpoint;
-    public $key;
-    public $secret;
+    public $host;
+    public $customerId;
+    public $privateKey;
     public $country;
     public $version;
 
+    const COUNTRY_HONGKONG = 'HK';
+    const COUNTRY_PHILIPPINES = 'PH';
+    const COUNTRY_SINGAPORE = 'SG';
+    const COUNTRY_THAILAND = 'TH';
+    const COUNTRY_TAIWAN = 'TW';
+
     /**
-     * @param string $endpoint
-     * @param string $key
-     * @param string $secret
+     * @param string|array $host
+     * @param string $customerId
+     * @param string $privateKey
      * @param string $country
      * @param int $version
      */
-    public function __construct($endpoint, $key, $secret, $country, $version = 2)
+    public function __construct($host, $customerId = '', $privateKey = '', $country = '', $version = 2)
     {
-        $this->endpoint = $endpoint;
-        $this->key = $key;
-        $this->secret = $secret;
+        $this->host = $host;
+        $this->customerId = $customerId;
+        $this->privateKey = $privateKey;
         $this->country = $country;
         $this->version = $version;
+
+        if (is_array($host)) {
+            foreach ($host as $key => $value) {
+                $this->{$key} = !empty($value) ? $value : $this->{$key};
+            }
+        }
     }
 }

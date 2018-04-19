@@ -8,7 +8,7 @@ use Lalamove\Resources\QuotationsResource;
 class Client
 {
     protected $settings;
-    
+
     public function __construct(Settings $settings)
     {
         $this->settings = $settings;
