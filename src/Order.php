@@ -2,6 +2,8 @@
 
 namespace Lalamove;
 
+use Lalamove\Responses\QuotationResponse;
+
 class Order extends Quotation
 {
     /** @var QuotedTotalFee */
