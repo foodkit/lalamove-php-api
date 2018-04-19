@@ -36,7 +36,7 @@ class LalamoveRequest
         $this->settings = $settings;
         $this->method = $method;
         $this->uri = $uri;
-        $this->params = $params;
+        $this->params = $this->object2array($params);
 
         // Dependency injected for easier unit testing:
 
@@ -48,7 +48,23 @@ class LalamoveRequest
         if (is_null($clock)) {
             $clock = new PslTimeClock();
         }
+
         $this->clock = $clock;
+    }
+
+    /**
+     * @param $o
+     * @return array
+     */
+    protected function object2array( $o )
+    {
+        $a = (array) $o;
+        foreach($a as &$v) {
+            if(is_object($v) || is_array($v)) {
+                $v = $this->object2array($v);
+            }
+        }
+        return $a;
     }
 
     /**
@@ -98,9 +114,10 @@ class LalamoveRequest
         $requestTime = $this->clock->getCurrentTimeInMilliseconds();
 
         $uuid = $this->uuid->getUuid();
+        $uri = str_replace($this->settings->host, '', $this->getFullPath());
 
-        $body = json_encode($this->params);
-        $message = "{$requestTime}\r\n{$this->method}\r\n{$this->uri}\r\n\r\n";
+        $body = json_encode($this->getParams());
+        $message = "{$requestTime}\r\n{$this->method}\r\n{$uri}\r\n\r\n";
 
         if ($this->method != 'GET') {
             $message .= $body;

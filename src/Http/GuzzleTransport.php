@@ -12,15 +12,14 @@ class GuzzleTransport implements TransportInterface
     public function send(LalamoveRequest $request)
     {
         $method = $request->getMethod();
-        $endpoint = $request->getFullPath();
-        $uri = $request->getUri();
+        $uri = $request->getFullPath();
         $params = $request->getParams();
         $headers = $request->getHeaders();
 
         $payload = ['headers' => $headers];
         $payload[$method === 'GET' ? 'query' : 'json'] = $params;
 
-        $response = $this->client()->request($method, $endpoint . $uri, $payload);
+        $response = $this->client()->request($method, $uri, $payload);
 
         $body = $response->getBody()->getContents();
         $result = json_decode($body);

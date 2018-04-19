@@ -16,6 +16,8 @@ class Settings
     const COUNTRY_THAILAND = 'TH';
     const COUNTRY_TAIWAN = 'TW';
 
+    const VERSION_2 = 2;
+
     /**
      * @param string|array $host
      * @param string $customerId
@@ -23,7 +25,7 @@ class Settings
      * @param string $country
      * @param int $version
      */
-    public function __construct($host, $customerId = '', $privateKey = '', $country = '', $version = 2)
+    public function __construct($host, $customerId = '', $privateKey = '', $country = '', $version = self::VERSION_2)
     {
         $this->host = $host;
         $this->customerId = $customerId;

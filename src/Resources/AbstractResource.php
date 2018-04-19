@@ -2,7 +2,9 @@
 
 namespace Lalamove\Resources;
 
+use Lalamove\Exceptions\ConflictException;
 use Lalamove\Exceptions\ForbiddenException;
+use Lalamove\Exceptions\InvalidRequestException;
 use Lalamove\Exceptions\LalamoveException;
 use Lalamove\Exceptions\NotFoundException;
 use Lalamove\Exceptions\PaymentRequiredException;
@@ -18,23 +20,13 @@ abstract class AbstractResource
     const LALAMOVE_TIME_FORMAT = 'Y-m-d\TH:i:00.000\Z';
     const LALAMOVE_API_VERSION = '2';
 
-    protected $endpoint;
+    protected $transport;
     protected $settings;
 
     public function __construct($settings, $transport = null)
     {
-        $this->transport = $transport ? $transport : new GuzzleTransport();
         $this->settings = $settings;
-    }
-
-    /**
-     * @param string $relative
-     * @return string
-     */
-    protected function uri($relative = '')
-    {
-        $version = self::LALAMOVE_API_VERSION;
-        return "/v{$version}/{$relative}";
+        $this->transport = $transport ? $transport : new GuzzleTransport();
     }
 
     /**
@@ -50,13 +42,14 @@ abstract class AbstractResource
 
         try {
             return $this->transport->send($request);
+
         } catch (\GuzzleHttp\Exception\ClientException $ex) {
 
             if ($mapped = $this->mapClientException($ex)) {
                 throw $mapped;
+            } else {
+                throw $ex;
             }
-
-            throw $ex;
 
         } catch (\GuzzleHttp\Exception\ServerException $ex) {
             throw new ServerException($ex->getMessage(), $ex->getCode(), $ex);
@@ -75,6 +68,8 @@ abstract class AbstractResource
     protected function mapClientException(\GuzzleHttp\Exception\ClientException $baseException)
     {
         $clientExceptions = [
+            ConflictException::class,
+            InvalidRequestException::class,
             ForbiddenException::class,
             NotFoundException::class,
             PaymentRequiredException::class,
@@ -82,9 +77,13 @@ abstract class AbstractResource
             UnauthorizedException::class,
         ];
 
+        $message = json_decode("{$baseException->getResponse()->getBody()}");
+        $message = isset($message->detail) ? $message->detail : null;
+
         foreach ($clientExceptions as $cExName) {
             /** @var \Lalamove\Exceptions\LalamoveException $cEx */
-            $cEx = new $cExName($baseException->getMessage(), $baseException->getCode(), $baseException);
+            $cEx = new $cExName($message ? $message : $baseException->getMessage(), $baseException->getCode(), $baseException);
+
             $response = $baseException->getResponse();
 
             if ($response && $response->getStatusCode() === $cEx->getStatusCode()) {
