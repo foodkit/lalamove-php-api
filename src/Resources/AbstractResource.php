@@ -2,6 +2,7 @@
 
 namespace Lalamove\Resources;
 
+use GuzzleHttp\Exception\RequestException;
 use Lalamove\Exceptions\ConflictException;
 use Lalamove\Exceptions\ForbiddenException;
 use Lalamove\Exceptions\InvalidRequestException;
@@ -57,36 +58,34 @@ abstract class AbstractResource
     }
 
     /**
-     * @param \GuzzleHttp\Exception\ClientException $baseException
-     * @return null|LalamoveException
-     * @throws ForbiddenException
-     * @throws NotFoundException
-     * @throws PaymentRequiredException
-     * @throws TooManyRequestsException
-     * @throws UnauthorizedException
+     * @param RequestException $baseException
+     * @return LalamoveException|null
      */
-    protected function mapClientException(\GuzzleHttp\Exception\ClientException $baseException)
+    protected function mapClientException(RequestException $baseException)
     {
-        $clientExceptions = [
+        $typedExceptions = [
+            // Client exceptions
             ConflictException::class,
-            InvalidRequestException::class,
             ForbiddenException::class,
+            InvalidRequestException::class,
             NotFoundException::class,
             PaymentRequiredException::class,
             TooManyRequestsException::class,
             UnauthorizedException::class,
+            // Server exceptions
+            ServerException::class,
         ];
 
         $message = json_decode("{$baseException->getResponse()->getBody()}");
         $message = isset($message->detail) ? $message->detail : null;
 
-        foreach ($clientExceptions as $cExName) {
+        foreach ($typedExceptions as $cExName) {
             /** @var \Lalamove\Exceptions\LalamoveException $cEx */
             $cEx = new $cExName($message ? $message : $baseException->getMessage(), $baseException->getCode(), $baseException);
 
             $response = $baseException->getResponse();
 
-            if ($response && $response->getStatusCode() === $cEx->getStatusCode()) {
+            if ($response && $response->getStatusCode() == $cEx->getStatusCode()) {
                 return $cEx;
             }
         }

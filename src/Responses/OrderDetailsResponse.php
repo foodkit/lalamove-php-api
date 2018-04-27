@@ -15,9 +15,13 @@ class OrderDetailsResponse
     public $driverId;
     public $status;
 
-    public function __construct($response)
+    /**
+     * Pass in the deserialized JSON response to populate all relevant fields.
+     * @param object $response
+     */
+    public function __construct($response = null)
     {
-        $this->driverId = $response->driverId;
-        $this->status = $response->status;
+        $this->driverId = $response ? $response->driverId : null;
+        $this->status = $response ? $response->status : null;
     }
 }

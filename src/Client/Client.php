@@ -2,6 +2,7 @@
 
 namespace Lalamove\Client;
 
+use Lalamove\Resources\DriversResource;
 use Lalamove\Resources\OrdersResource;
 use Lalamove\Resources\QuotationsResource;
 
@@ -28,5 +29,13 @@ class Client
     public function quotations()
     {
         return new QuotationsResource($this->settings);
+    }
+
+    /**
+     * @return DriversResource
+     */
+    public function drivers()
+    {
+        return new DriversResource($this->settings);
     }
 }

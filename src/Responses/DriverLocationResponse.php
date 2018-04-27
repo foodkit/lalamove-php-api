@@ -11,9 +11,13 @@ class DriverLocationResponse
     /** @var $string */
     public $updatedAt;
 
-    public function __construct($response)
+    /**
+     * Pass in the deserialized JSON response to populate all relevant fields.
+     * @param object $response
+     */
+    public function __construct($response = null)
     {
-        $this->location = new Location($response->location->lat, $response->location->lng);
-        $this->updatedAt = $response->updatedAt;
+        $this->location = $response ? new Location($response->location->lat, $response->location->lng) : null;
+        $this->updatedAt = $response ? $response->updatedAt : null;
     }
 }

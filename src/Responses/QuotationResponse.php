@@ -8,12 +8,12 @@ class QuotationResponse
     public $totalFee;
 
     /**
-     * QuotationResponse constructor.
+     * Pass in the deserialized JSON response to populate all relevant fields.
      * @param object $response
      */
-    public function __construct($response)
+    public function __construct($response = null)
     {
-        $this->totalFeeCurrency = $response->totalFeeCurrency;
-        $this->totalFee = $response->totalFee;
+        $this->totalFeeCurrency = $response ? $response->totalFeeCurrency : null;
+        $this->totalFee = $response ? $response->totalFee : null;
     }
 }

@@ -9,9 +9,13 @@ class DriverResponse
     /** @var string */
     public $phone;
 
-    public function __construct($response)
+    /**
+     * Pass in the deserialized JSON response to populate all relevant fields.
+     * @param object $response
+     */
+    public function __construct($response = null)
     {
-        $this->name = $response->name;
-        $this->phone = $response->phone;
+        $this->name = $response ? $response->name : null;
+        $this->phone = $response ? $response->phone : null;
     }
 }

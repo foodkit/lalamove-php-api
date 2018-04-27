@@ -8,12 +8,12 @@ class OrderResponse
     public $orderRef;
 
     /**
-     * QuotationResponse constructor.
+     * Pass in the deserialized JSON response to populate all relevant fields.
      * @param object $response
      */
-    public function __construct($response)
+    public function __construct($response = null)
     {
-        $this->customerOrderId = $response->customerOrderId;
-        $this->orderRef = $response->orderRef;
+        $this->customerOrderId = $response ? $response->customerOrderId : null;
+        $this->orderRef = $response ? $response->orderRef : null;
     }
 }
