@@ -19,6 +19,14 @@ class Settings
     const VERSION_2 = 2;
 
     /**
+     * Pass in either individual settings:
+     *
+     * $settings = new Settings('host.com', '1234567890', // etc...
+     *
+     * ... or an associative array of settings:
+     *
+     * $settings = new Settings(['host' => 'host.com', 'customerId' => '1234567890', 'privateKey' => // etc...
+     *
      * @param string|array $host
      * @param string $customerId
      * @param string $privateKey

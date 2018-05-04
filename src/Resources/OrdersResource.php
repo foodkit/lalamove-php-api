@@ -20,7 +20,7 @@ class OrdersResource extends AbstractResource
 
     /**
      * @param $id
-     * @return mixed
+     * @return OrderDetailsResponse
      * @throws \Lalamove\Exceptions\LalamoveException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */

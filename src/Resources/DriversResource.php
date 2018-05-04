@@ -25,7 +25,7 @@ class DriversResource extends AbstractResource
      */
     public function get($orderId, $driverId)
     {
-        $response = $this->send('GET', "orders/{$orderId}/{$driverId}");
+        $response = $this->send('GET', "orders/{$orderId}/drivers/{$driverId}");
         return new DriverResponse($response);
     }
 
@@ -38,7 +38,7 @@ class DriversResource extends AbstractResource
      */
     public function getLocation($orderId, $driverId)
     {
-        $response = $this->send('GET', "orders/{$orderId}/{$driverId}/location");
+        $response = $this->send('GET', "orders/{$orderId}/drivers/{$driverId}/location");
         return new DriverLocationResponse($response);
     }
 }
