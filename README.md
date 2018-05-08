@@ -4,10 +4,6 @@ This provides a PHP wrapper around the Lalamove API.
 
 Built and maintained by [Foodkit](https://foodkit.io).
 
-## Development progress ##
-
-This library is still a _WORK IN PROGRESS_. We're in the process of porting our Internal client library across into this public version and expect to be ready for a v1.0 release in late-April. Feel free to use the library before then but please note that the API may change.
-
 ## Design goals ##
 
 * **Lean on the IDE**. We should leverage the IDE (autocompletion) to _help_ the developer to use the library.
@@ -44,14 +40,20 @@ $settings = new \Lalamove\Client\Settings(
 $client = new Lalamove\Client\Client($settings);
 
 // Create a quote:
+$quotation = new \Lalamove\Quotation();
+// ...prepare the quotation object...
 $quotationResponse = $client->quotations()->create($quotation);
 
 // Create an order:
-$order = \Lalamove\Order::makeFromQuote($quotation, $quotationResponse, 'unique-order-id');
+$order = \Lalamove\Order::makeFromQuote($quotation, $quotationResponse, 'unique-order-id', false);
 $orderResponse = $client->orders()->create($order);
 
 // Fetch order details:
 $details = $client->orders()->details($orderResponse->customerOrderId);
+
+// Get the driver:
+$driver = $client->drivers()->get($orderResponse->customerOrderId, $details->driverId);
+$driverLocation = $client->drivers()->getLocation($orderResponse->customerOrderId, $details->driverId);
 
 // Cancel the order:
 $details = $client->orders()->cancel($orderResponse->customerOrderId);
