@@ -79,6 +79,9 @@ class GuzzleTransport implements TransportInterface
         $message .= PHP_EOL;
         $message .= str($response);
 
+        // Need to do this after reading the body of the response, or it will end up being empty when we use it later:
+        $response->getBody()->rewind();
+
         $request->getSettings()->logger->info($message);
     }
 
