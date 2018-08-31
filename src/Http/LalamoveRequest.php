@@ -2,8 +2,8 @@
 
 namespace Lalamove\Http;
 
-use Lalamove\Http\Clock\PslTimeClock;
 use Lalamove\Http\Clock\ClockInterface;
+use Lalamove\Http\Clock\PslTimeClock;
 use Lalamove\Http\Uuid\PslUniqidGenerator;
 use Lalamove\Http\Uuid\UuidGeneratorInterface;
 
@@ -31,12 +31,18 @@ class LalamoveRequest
      * @param UuidGeneratorInterface|null $uuid
      * @param ClockInterface $clock
      */
-    public function __construct($settings, $method = 'GET', $uri = '', $params = [], UuidGeneratorInterface $uuid = null, ClockInterface $clock = null)
-    {
+    public function __construct(
+        $settings,
+        $method = 'GET',
+        $uri = '',
+        $params = [],
+        UuidGeneratorInterface $uuid = null,
+        ClockInterface $clock = null
+    ) {
         $this->settings = $settings;
-        $this->method = $method;
-        $this->uri = $uri;
-        $this->params = $this->object2array($params);
+        $this->method   = $method;
+        $this->uri      = $uri;
+        $this->params   = $this->object2array($params);
 
         // Dependency injected for easier unit testing:
 
@@ -56,11 +62,11 @@ class LalamoveRequest
      * @param $o
      * @return array
      */
-    protected function object2array( $o )
+    protected function object2array($o)
     {
-        $a = (array) $o;
-        foreach($a as &$v) {
-            if(is_object($v) || is_array($v)) {
+        $a = (array)$o;
+        foreach ($a as &$v) {
+            if (is_object($v) || is_array($v)) {
                 $v = $this->object2array($v);
             }
         }
@@ -88,7 +94,7 @@ class LalamoveRequest
      */
     public function getFullPath()
     {
-        $host = $this->settings->host;
+        $host    = $this->settings->host;
         $version = $this->settings->version;
 
         return "{$host}/v{$version}/{$this->uri}";
@@ -109,14 +115,14 @@ class LalamoveRequest
     {
         $customerId = $this->settings->customerId;
         $privateKey = $this->settings->privateKey;
-        $country = $this->settings->country;
+        $country    = $this->settings->country;
 
         $requestTime = $this->clock->getCurrentTimeInMilliseconds();
 
         $uuid = $this->uuid->getUuid();
-        $uri = str_replace($this->settings->host, '', $this->getFullPath());
+        $uri  = str_replace($this->settings->host, '', $this->getFullPath());
 
-        $body = json_encode($this->getParams());
+        $body    = json_encode($this->getParams());
         $message = "{$requestTime}\r\n{$this->method}\r\n{$uri}\r\n\r\n";
 
         if ($this->method != 'GET') {
@@ -130,7 +136,17 @@ class LalamoveRequest
             'Accept' => 'application/json',
             'Content-type' => 'application/json; charset=utf-8',
             'X-LLM-Country' => strtoupper($country),
-            'X-Request_ID' => $uuid
+            'X-Request_ID' => $uuid,
         ];
     }
+
+    /**
+     * @return \Lalamove\Client\Settings
+     */
+    public function getSettings(): \Lalamove\Client\Settings
+    {
+        return $this->settings;
+    }
+
+
 }

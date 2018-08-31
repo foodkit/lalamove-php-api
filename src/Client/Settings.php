@@ -2,6 +2,8 @@
 
 namespace Lalamove\Client;
 
+use Psr\Log\LoggerInterface;
+
 class Settings
 {
     public $host;
@@ -9,6 +11,7 @@ class Settings
     public $privateKey;
     public $country;
     public $version;
+    public $logger;
 
     const COUNTRY_HONGKONG = 'HK';
     const COUNTRY_PHILIPPINES = 'PH';
@@ -32,14 +35,22 @@ class Settings
      * @param string $privateKey
      * @param string $country
      * @param int $version
+     * @param LoggerInterface|null $logger to log each request/response pair the HTTP client handles
      */
-    public function __construct($host, $customerId = '', $privateKey = '', $country = '', $version = self::VERSION_2)
-    {
-        $this->host = $host;
+    public function __construct(
+        $host,
+        $customerId = '',
+        $privateKey = '',
+        $country = '',
+        $version = self::VERSION_2,
+        LoggerInterface $logger = null
+    ) {
+        $this->host       = $host;
         $this->customerId = $customerId;
         $this->privateKey = $privateKey;
-        $this->country = $country;
-        $this->version = $version;
+        $this->country    = $country;
+        $this->version    = $version;
+        $this->logger     = $logger;
 
         if (is_array($host)) {
             foreach ($host as $key => $value) {

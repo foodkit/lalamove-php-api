@@ -3,8 +3,10 @@
     "description": "PHP client for the Lalamove API",
     "type": "library",
     "require": {
+        "php": "^7.1",
         "nesbot/carbon": "^1.22",
-        "guzzlehttp/guzzle": "^6.2.0"
+        "guzzlehttp/guzzle": "^6.2.0",
+        "psr/log": "^1.0"
     },
     "require-dev": {
         "phpunit/phpunit": "^7.0",
