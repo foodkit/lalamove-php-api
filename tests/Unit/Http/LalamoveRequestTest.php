@@ -15,7 +15,7 @@ class LalamoveRequestTest extends BaseTest
     protected $uuid;
     protected $clock;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->settings = new DummySettings();
         $this->uuid = new MockedUuidGenerator();

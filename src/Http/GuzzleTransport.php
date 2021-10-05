@@ -5,9 +5,9 @@ namespace Lalamove\Http;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\TransferException;
+use GuzzleHttp\Psr7\Message;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
-use function GuzzleHttp\Psr7\str;
 
 class GuzzleTransport implements TransportInterface
 {
@@ -69,18 +69,19 @@ class GuzzleTransport implements TransportInterface
      * @param Response $response
      * @return void
      */
-    protected function logRequestResponse(LalamoveRequest $request, Response $response)
+    protected function logRequestResponse(LalamoveRequest $request, Response $httpResponse)
     {
         if (!$request->getSettings()->logger) {
             return;
         }
 
-        $message = str($this->convertRequest($request));
+        $httpRequest = $this->convertRequest($request);
+        $message = Message::toString($httpRequest);
         $message .= PHP_EOL;
-        $message .= str($response);
+        $message .= Message::toString($httpResponse);
 
         // Need to do this after reading the body of the response, or it will end up being empty when we use it later:
-        $response->getBody()->rewind();
+        $httpResponse->getBody()->rewind();
 
         $request->getSettings()->logger->info($message);
     }
@@ -97,7 +98,8 @@ class GuzzleTransport implements TransportInterface
             return;
         }
 
-        $message = str($this->convertRequest($request));
+        $httpRequest = $this->convertRequest($request);
+        $message = Message::toString($httpRequest);
         $message .= PHP_EOL;
         $message .= $failureMessage;
 

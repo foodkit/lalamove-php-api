@@ -5,9 +5,7 @@
  */
 declare(strict_types=1);
 
-
 namespace LalamoveTests\Unit\Http;
-
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\TransferException;
@@ -27,7 +25,7 @@ class GuzzleTransportTest extends BaseTest
     protected $uuid;
     protected $clock;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->settings = new DummySettings();
         $this->uuid     = new MockedUuidGenerator();
