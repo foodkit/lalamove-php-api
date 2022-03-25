@@ -167,19 +167,19 @@ class LalamoveRequest
             $message .= $body;
         }
 
-        $key = $this->settings->apiKey;
-        $signature = hash_hmac("sha256", $message, $secretKey);
-        $signature = base64_encode($signature);
+        $publicKey = $this->settings->apiKey;
+
+        $signature = hash_hmac('sha256', $message, $secretKey);
 
         $headers = [
-            'Authorization' => "hmac {$key}:{$requestTime}:{$signature}",
+            // Regex:
+            // /hmac ([A-Fa-f\d]{32}|(pk_test_|pk_prod_)[A-Fa-f\d]{32}):(\d{13}):([A-Fa-f\d]{64})/
+            'Authorization' => "hmac {$publicKey}:{$requestTime}:{$signature}",
             'Accept' => 'application/json',
-            'Content-type' => 'application/json; charset=utf-8',
+            'Content-type' => 'application/json',
             'Market' => strtoupper($country),
             'Request-ID' => $uuid,
         ];
-
-        print_r($headers);
 
         return $headers;
     }

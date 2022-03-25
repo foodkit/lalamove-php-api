@@ -4,6 +4,8 @@ This provides a PHP wrapper around the Lalamove API.
 
 Built and maintained by [Foodkit](https://foodkit.io).
 
+See [https://partnerportal.lalamove.com/](https://partnerportal.lalamove.com/).
+
 ## Design goals ##
 
 * **Lean on the IDE**. We should leverage the IDE (autocompletion) to _help_ the developer to use the library.

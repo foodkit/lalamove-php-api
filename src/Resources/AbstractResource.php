@@ -19,7 +19,6 @@ use Lalamove\Http\LalamoveRequest;
 abstract class AbstractResource
 {
     const LALAMOVE_TIME_FORMAT = 'Y-m-d\TH:i:00.000\Z';
-    const LALAMOVE_API_VERSION = '2';
 
     protected $transport;
     protected $settings;
@@ -27,7 +26,9 @@ abstract class AbstractResource
     public function __construct($settings, $transport = null)
     {
         $this->settings = $settings;
-        $this->transport = $transport ? $transport : new GuzzleTransport();
+        $this->transport = $transport
+            ? $transport
+            : new GuzzleTransport();
     }
 
     /**

@@ -39,7 +39,7 @@ trait UsesLalamoveApi
         [$key, $secret] = $this->getCredentials();
 
         return new Settings(
-            'rest.sandbox.lalamove.com', // Use sandbox host, not production
+            'https://rest.sandbox.lalamove.com', // Use sandbox host, not production
             "{$key}",
             "{$secret}",
             $country = Settings::COUNTRY_THAILAND
