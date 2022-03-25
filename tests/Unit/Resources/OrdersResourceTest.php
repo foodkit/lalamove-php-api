@@ -8,7 +8,6 @@ use GuzzleHttp\Psr7\Response;
 use Lalamove\Exceptions\PaymentRequiredException;
 use Lalamove\Http\LalamoveRequest;
 use Lalamove\Http\TransportInterface;
-use Lalamove\Resources\OrdersResource;
 use LalamoveTests\BaseTest;
 use LalamoveTests\Helpers\DummySettings;
 
@@ -22,7 +21,7 @@ class OrdersResourceTest extends BaseTest
         $transport = new MockedExceptionThrowingTransport($ex);
 
         $this->expectException(PaymentRequiredException::class);
-        $resource = new OrdersResource(new DummySettings(), $transport);
+        $resource = new \Lalamove\Resources\V2\OrdersResource(new DummySettings(), $transport);
         $resource->details('doesn\'t matter what this is');
     }
 }

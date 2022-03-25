@@ -2,7 +2,7 @@
 
 namespace LalamoveTests\Helpers;
 
-use Lalamove\Client\Settings;
+use Lalamove\Client\V2\Settings;
 
 class DummySettings extends Settings
 {

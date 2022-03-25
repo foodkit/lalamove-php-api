@@ -1,6 +1,6 @@
 <?php
 
-namespace Lalamove\Client;
+namespace Lalamove\Client\V2;
 
 use Psr\Log\LoggerInterface;
 

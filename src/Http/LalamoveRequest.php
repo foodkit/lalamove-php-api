@@ -9,7 +9,6 @@ use Lalamove\Http\Uuid\UuidGeneratorInterface;
 
 class LalamoveRequest
 {
-    /** @var \Lalamove\Client\Settings */
     protected $settings;
     /** @var string */
     protected $method;
@@ -96,7 +95,6 @@ class LalamoveRequest
     {
         $host    = $this->settings->host;
         $version = $this->settings->version;
-
         return "{$host}/v{$version}/{$this->uri}";
     }
 
@@ -112,6 +110,18 @@ class LalamoveRequest
      * @return array
      */
     public function getHeaders()
+    {
+        switch ($this->settings->version) {
+            case 2:
+                return $this->getV2Headers();
+            case 3:
+                return $this->getV3Headers();
+            default:
+                throw new \RuntimeException("Unknown version number {$this->settings->version}!");
+        }
+    }
+
+    private function getV2Headers(): array
     {
         $customerId = $this->settings->customerId;
         $privateKey = $this->settings->privateKey;
@@ -140,10 +150,44 @@ class LalamoveRequest
         ];
     }
 
+    private function getV3Headers(): array
+    {
+        $secretKey = $this->settings->apiSecret;
+        $country    = $this->settings->country;
+
+        $requestTime = $this->clock->getCurrentTimeInMilliseconds();
+
+        $uuid = $this->uuid->getUuid();
+        $uri  = str_replace($this->settings->host, '', $this->getFullPath());
+
+        $body    = json_encode($this->getParams());
+        $message = "{$requestTime}\r\n{$this->method}\r\n{$uri}\r\n\r\n";
+
+        if ($this->method != 'GET') {
+            $message .= $body;
+        }
+
+        $key = $this->settings->apiKey;
+        $signature = hash_hmac("sha256", $message, $secretKey);
+        $signature = base64_encode($signature);
+
+        $headers = [
+            'Authorization' => "hmac {$key}:{$requestTime}:{$signature}",
+            'Accept' => 'application/json',
+            'Content-type' => 'application/json; charset=utf-8',
+            'Market' => strtoupper($country),
+            'Request-ID' => $uuid,
+        ];
+
+        print_r($headers);
+
+        return $headers;
+    }
+
     /**
-     * @return \Lalamove\Client\Settings
+     * @todo: replace typing
      */
-    public function getSettings(): \Lalamove\Client\Settings
+    public function getSettings()
     {
         return $this->settings;
     }

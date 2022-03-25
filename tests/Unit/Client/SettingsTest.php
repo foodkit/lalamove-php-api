@@ -2,7 +2,7 @@
 
 namespace LalamoveTests\Unit\Client;
 
-use Lalamove\Client\Settings;
+use Lalamove\Client\V2\Settings;
 use LalamoveTests\BaseTest;
 
 class SettingsTest extends BaseTest
@@ -28,7 +28,7 @@ class SettingsTest extends BaseTest
 
     public function test_it_works_with_an_array()
     {
-        $settings = new Settings([
+        $settings = new \Lalamove\Client\V2\Settings([
             'host' => $this->testHost,
             'customerId' => $this->testCustomerId,
             'privateKey' => $this->testPrivateKey,
@@ -39,7 +39,7 @@ class SettingsTest extends BaseTest
         $this->assertSettingsMatch($settings);
     }
 
-    protected function assertSettingsMatch(Settings $settings)
+    protected function assertSettingsMatch(\Lalamove\Client\V2\Settings $settings)
     {
         $this->assertEquals($this->testHost, $settings->host);
         $this->assertEquals($this->testCustomerId, $settings->customerId);

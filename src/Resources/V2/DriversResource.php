@@ -1,7 +1,8 @@
 <?php
 
-namespace Lalamove\Resources;
+namespace Lalamove\Resources\V2;
 
+use Lalamove\Resources\AbstractResource;
 use Lalamove\Responses\DriverLocationResponse;
 use Lalamove\Responses\DriverResponse;
 

@@ -1,8 +1,9 @@
 <?php
 
-namespace Lalamove\Resources;
+namespace Lalamove\Resources\V2;
 
 use Lalamove\Quotation;
+use Lalamove\Resources\AbstractResource;
 use Lalamove\Responses\QuotationResponse;
 
 class QuotationsResource extends AbstractResource

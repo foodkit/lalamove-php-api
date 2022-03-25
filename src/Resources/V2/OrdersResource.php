@@ -1,8 +1,9 @@
 <?php
 
-namespace Lalamove\Resources;
+namespace Lalamove\Resources\V2;
 
 use Lalamove\Order;
+use Lalamove\Resources\AbstractResource;
 use Lalamove\Responses\OrderDetailsResponse;
 use Lalamove\Responses\OrderResponse;
 

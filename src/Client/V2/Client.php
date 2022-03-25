@@ -1,10 +1,10 @@
 <?php
 
-namespace Lalamove\Client;
+namespace Lalamove\Client\V2;
 
-use Lalamove\Resources\DriversResource;
-use Lalamove\Resources\OrdersResource;
-use Lalamove\Resources\QuotationsResource;
+use Lalamove\Resources\V2\DriversResource;
+use Lalamove\Resources\V2\OrdersResource;
+use Lalamove\Resources\V2\QuotationsResource;
 
 class Client
 {
@@ -16,7 +16,7 @@ class Client
     }
 
     /**
-     * @return OrdersResource
+     * @return \Lalamove\Resources\V2\OrdersResource
      */
     public function orders()
     {
