@@ -2,7 +2,7 @@
 
 namespace LalamoveTests\Unit;
 
-use Lalamove\Quotation;
+use Lalamove\Requests\V2\Quotation;
 use LalamoveTests\BaseTest;
 
 class QuotationTest extends BaseTest

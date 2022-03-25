@@ -42,12 +42,12 @@ $settings = new \Lalamove\Client\V2\Settings(
 $client = new Lalamove\Client\V2\Client($settings);
 
 // Create a quote:
-$quotation = new \Lalamove\Quotation();
+$quotation = new \Lalamove\Requests\V2\Quotation();
 // ...prepare the quotation object...
 $quotationResponse = $client->quotations()->create($quotation);
 
 // Create an order:
-$order = \Lalamove\Order::makeFromQuote($quotation, $quotationResponse, 'unique-order-id', false);
+$order = \Lalamove\Requests\V2\Order::makeFromQuote($quotation, $quotationResponse, 'unique-order-id', false);
 $orderResponse = $client->orders()->create($order);
 
 // Fetch order details:

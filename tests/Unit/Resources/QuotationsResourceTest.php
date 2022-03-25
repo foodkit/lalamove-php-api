@@ -6,7 +6,7 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Lalamove\Exceptions\UnauthorizedException;
-use Lalamove\Quotation;
+use Lalamove\Requests\V2\Quotation;
 use LalamoveTests\BaseTest;
 use LalamoveTests\Helpers\DummySettings;
 

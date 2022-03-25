@@ -1,8 +1,8 @@
 <?php
 
-namespace Lalamove;
+namespace Lalamove\Requests\V2;
 
-use Lalamove\Responses\QuotationResponse;
+use Lalamove\Responses\V2\QuotationResponse;
 
 class Order extends Quotation
 {
@@ -15,7 +15,7 @@ class Order extends Quotation
 
     /**
      * @param Quotation $quotation
-     * @param QuotationResponse $response
+     * @param \Lalamove\Responses\V2\QuotationResponse $response
      * @param string $callerSideCustomerOrderId
      * @param bool $sms
      * @return static

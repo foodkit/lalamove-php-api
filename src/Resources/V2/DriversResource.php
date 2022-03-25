@@ -3,8 +3,8 @@
 namespace Lalamove\Resources\V2;
 
 use Lalamove\Resources\AbstractResource;
-use Lalamove\Responses\DriverLocationResponse;
-use Lalamove\Responses\DriverResponse;
+use Lalamove\Responses\V2\DriverLocationResponse;
+use Lalamove\Responses\V2\DriverResponse;
 
 class DriversResource extends AbstractResource
 {
@@ -20,7 +20,7 @@ class DriversResource extends AbstractResource
     /**
      * @param $orderId
      * @param $driverId
-     * @return DriverResponse
+     * @return \Lalamove\Responses\V2\DriverResponse
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Lalamove\Exceptions\LalamoveException
      */

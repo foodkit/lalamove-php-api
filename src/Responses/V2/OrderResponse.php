@@ -1,6 +1,6 @@
 <?php
 
-namespace Lalamove\Responses;
+namespace Lalamove\Responses\V2;
 
 class OrderResponse
 {

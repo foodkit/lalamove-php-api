@@ -2,10 +2,10 @@
 
 namespace Lalamove\Resources\V2;
 
-use Lalamove\Order;
+use Lalamove\Requests\V2\Order;
 use Lalamove\Resources\AbstractResource;
-use Lalamove\Responses\OrderDetailsResponse;
-use Lalamove\Responses\OrderResponse;
+use Lalamove\Responses\V2\OrderDetailsResponse;
+use Lalamove\Responses\V2\OrderResponse;
 
 class OrdersResource extends AbstractResource
 {
@@ -21,7 +21,7 @@ class OrdersResource extends AbstractResource
 
     /**
      * @param $id
-     * @return OrderDetailsResponse
+     * @return \Lalamove\Responses\V2\OrderDetailsResponse
      * @throws \Lalamove\Exceptions\LalamoveException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
@@ -33,7 +33,7 @@ class OrdersResource extends AbstractResource
 
     /**
      * @param Order $order
-     * @return OrderResponse
+     * @return \Lalamove\Responses\V2\OrderResponse
      * @throws \Lalamove\Exceptions\LalamoveException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */

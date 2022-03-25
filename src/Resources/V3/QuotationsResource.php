@@ -3,7 +3,7 @@
 namespace Lalamove\Resources\V3;
 
 use Lalamove\Resources\AbstractResource;
-use Lalamove\Responses\QuotationResponse;
+use Lalamove\Responses\V2\QuotationResponse;
 
 class QuotationsResource extends AbstractResource
 {

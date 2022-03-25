@@ -2,15 +2,15 @@
 
 namespace Lalamove\Resources\V2;
 
-use Lalamove\Quotation;
+use Lalamove\Requests\V2\Quotation;
 use Lalamove\Resources\AbstractResource;
-use Lalamove\Responses\QuotationResponse;
+use Lalamove\Responses\V2\QuotationResponse;
 
 class QuotationsResource extends AbstractResource
 {
     /**
-     * @param Quotation $quotation
-     * @return QuotationResponse
+     * @param \Lalamove\Requests\V2\Quotation $quotation
+     * @return \Lalamove\Responses\V2\QuotationResponse
      * @throws \Lalamove\Exceptions\LalamoveException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */

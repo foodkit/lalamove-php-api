@@ -1,6 +1,6 @@
 <?php
 
-namespace Lalamove;
+namespace Lalamove\Requests\V2;
 
 use Carbon\Carbon;
 use Lalamove\Resources\AbstractResource;

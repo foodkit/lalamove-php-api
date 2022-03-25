@@ -1,12 +1,12 @@
 <?php
 
-namespace Lalamove\Responses;
+namespace Lalamove\Responses\V2;
 
-use Lalamove\Location;
+use Lalamove\Requests\V2\Location;
 
 class DriverLocationResponse
 {
-    /** @var Location */
+    /** @var \Lalamove\Requests\V2\Location */
     public $location;
     /** @var $string */
     public $updatedAt;
