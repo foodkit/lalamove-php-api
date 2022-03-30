@@ -1,11 +1,28 @@
 version: 2.1
 
 jobs:
-  build:
+  build-74:
     docker:
       - image: cimg/php:7.4.26
     steps:
-      - checkout # checkout repo
+      - checkout
+      - run: sudo composer selfupdate
+      - restore_cache: # special step to restore the dependency cache if `composer.lock` does not change
+          keys:
+            - composer-{{ checksum "composer.lock" }}
+            # fallback to using the latest cache if no exact match is found (See https://circleci.com/docs/2.0/caching/)
+            - composer-
+      - run: composer install -n --prefer-dist
+      - save_cache: # special step to save the dependency cache with the `composer.lock` cache key template
+          key: composer-{{ checksum "composer.lock" }}
+          paths:
+            - vendor
+      - run: ./vendor/bin/phpunit tests/
+  build-81:
+    docker:
+      - image: cimg/php:8.1.4
+    steps:
+      - checkout
       - run: sudo composer selfupdate
       - restore_cache: # special step to restore the dependency cache if `composer.lock` does not change
           keys:
