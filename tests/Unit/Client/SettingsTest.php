@@ -8,15 +8,17 @@ use LalamoveTests\BaseTest;
 
 class SettingsTest extends BaseTest
 {
+    // These credentials are fake, do not try to use them in real environments.
     public string $testHost = 'https://v2.testhost.com';
     public string $testCustomerId = 'wgmsqqh208fxic9vcqwruk2tciicielf';
     public string $testPrivateKey = 'kGEX69NLd33+J/FQGdx8jOLAO1JZVPrHzQpuZDrWGxlftbu2tKFiVkptTSfPaj==';
     public string $testCountry = 'JP';
     public int $testVersion = 42;
 
+    // These credentials are fake, do not try to use them in real environments.
     public string $v3host = 'https://v3.testhost.com';
-    public string $v3apiKey = 'wgmsqqh208fxic9vcqwruk2tciicielf';
-    public string $v3apiSecret = 'kGEX69NLd33+J/FQGdx8jOLAO1JZVPrHzQpuZDrWGxlftbu2tKFiVkptTSfPaj==';
+    public string $v3apiKey = 'API_KEY';
+    public string $v3apiSecret = 'API_SECRET';
     public string $v3country = 'JP';
     public int $v3version = 3;
 
