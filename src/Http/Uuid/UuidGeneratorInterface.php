@@ -4,8 +4,5 @@ namespace Lalamove\Http\Uuid;
 
 interface UuidGeneratorInterface
 {
-    /**
-     * @return string
-     */
-    public function getUuid();
+    public function getUuid(): string;
 }

@@ -6,6 +6,8 @@ This provides a PHP wrapper around the Lalamove API.
 
 Built and maintained by [Foodkit](https://foodkit.io).
 
+See [https://partnerportal.lalamove.com/](https://partnerportal.lalamove.com/).
+
 ## Design goals ##
 
 * **Lean on the IDE**. We should leverage the IDE (autocompletion) to _help_ the developer to use the library.
@@ -31,34 +33,59 @@ OK (11 tests, 23 assertions)
 ```php
 <?php
 
-$settings = new \Lalamove\Client\Settings(
+$settings = new \Lalamove\Client\V3\Settings(
     'https://sandbox-rest.lalamove.com',
-    // These are fake, don't try and use them:
-    'wgmsqqh208fxic9vcqwruk2tciicielf', // customerId
-    'kGEX69NLd33+J/FQGdx8jOLAO1JZVPrHzQpuZDrWGxlftbu2tKFiVkptTSfPaj==', // privateKey
-    \Lalamove\Client\Settings::COUNTRY_SINGAPORE // country
+    'API_KEY',
+    'API_SECRET',
+    \Lalamove\Client\V3\Settings::COUNTRY_SINGAPORE // country
 );
 
-$client = new Lalamove\Client\Client($settings);
+$client = new Lalamove\Client\V3\Client($settings);
 
 // Create a quote:
-$quotation = new \Lalamove\Quotation();
+$quotation = new \Lalamove\Requests\V3\Quotation();
+
 // ...prepare the quotation object...
 $quotationResponse = $client->quotations()->create($quotation);
 
-// Create an order:
-$order = \Lalamove\Order::makeFromQuote($quotation, $quotationResponse, 'unique-order-id', false);
+// Get quotation by id
+$quotationDetailsResponse = $client->quotations()->create($quotation->quotationId);
+
+// Create an order
+// Provide the quotationID and stopId received from create quote and add contact information for both the sender and recipients
+$contact = new \Lalamove\Requests\V3\Contact('Contact Name', '+65991111110', 'stop_id_from_quotation');
+
+// recipient contact and instruction per stop
+$recipients = [
+    [
+        'stopId' => 'stop_id_1',
+        'name' => 'name',
+        //  Must be a valid number with region code (ex: +65)
+        'phone' => '+65991111111',
+    ], [
+        'stopId' => 'stop_id_2',
+        'name' => 'name',
+        //  Must be a valid number with region code (ex: +65)
+        'phone' => '+65991111112',
+    ]
+];
+
+$order = new \Lalamove\Requests\V3\Order($quotationId, $sender, $recipients);
 $orderResponse = $client->orders()->create($order);
 
 // Fetch order details:
-$details = $client->orders()->details($orderResponse->customerOrderId);
+$details = $client->orders()->details($orderResponse->orderId);
 
 // Get the driver:
-$driver = $client->drivers()->get($orderResponse->customerOrderId, $details->driverId);
-$driverLocation = $client->drivers()->getLocation($orderResponse->customerOrderId, $details->driverId);
+// driverId from create order or by order details response
+$driver = $client->drivers()->get($details->orderId, $details->driverId);
 
 // Cancel the order:
-$details = $client->orders()->cancel($orderResponse->customerOrderId);
+$details = $client->orders()->cancel($orderResponse->orderId);
+
+// Create webhooks
+$webhook = new \Lalamove\Requests\V3\Webhook('https://webhook.site/fd8ccc58-7447-4122-8a0c-f9c31eb79ad3');
+$webhook = $client->webhooks()->create($webhook));
 ```
 
 ## Errors ##
@@ -86,4 +113,3 @@ try {
 ## Contributing ##
 
 Open a PR against master. Please use PSR-x conventions for everything and include tests.
-

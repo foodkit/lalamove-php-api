@@ -9,10 +9,7 @@ namespace Lalamove\Http\Uuid;
  */
 class PslUniqidGenerator implements UuidGeneratorInterface
 {
-    /**
-     * @return string
-     */
-    public function getUuid()
+    public function getUuid(): string
     {
         return uniqid();
     }

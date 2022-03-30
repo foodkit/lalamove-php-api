@@ -4,18 +4,12 @@ namespace Lalamove\Http\Clock;
 
 class PslTimeClock implements ClockInterface
 {
-    /**
-     * @return int
-     */
-    public function getCurrentTimeInSeconds()
+    public function getCurrentTimeInSeconds(): int
     {
         return time();
     }
 
-    /**
-     * @return float|int
-     */
-    public function getCurrentTimeInMilliseconds()
+    public function getCurrentTimeInMilliseconds(): int
     {
         return $this->getCurrentTimeInSeconds() * 1000;
     }

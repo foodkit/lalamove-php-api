@@ -3,40 +3,32 @@
 namespace Lalamove\Http;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Psr7\Message;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use stdClass;
 
 class GuzzleTransport implements TransportInterface
 {
-    /** @var Client */
-    private $client;
+    private Client $client;
 
-    /**
-     * GuzzleTransport constructor.
-     * @param Client $client
-     */
     public function __construct(Client $client = null)
     {
         $this->client = $client ?? new Client();
     }
 
-
-    /**
-     * @param LalamoveRequest $request
-     * @return mixed
-     * @throws \GuzzleHttp\Exception\GuzzleException
-     */
-    public function send(LalamoveRequest $request)
+    public function send(LalamoveRequest $request): null | stdClass
     {
         $method  = $request->getMethod();
         $uri     = $request->getFullPath();
         $params  = $request->getParams();
         $headers = $request->getHeaders();
 
-        $payload                                       = ['headers' => $headers];
+        $payload = ['headers' => $headers];
+
         $payload[$method === 'GET' ? 'query' : 'json'] = $params;
 
         try {
@@ -64,12 +56,8 @@ class GuzzleTransport implements TransportInterface
     /**
      * Log request/response details
      * @see https://github.com/guzzle/psr7#function-str
-     *
-     * @param LalamoveRequest $request
-     * @param Response $response
-     * @return void
      */
-    protected function logRequestResponse(LalamoveRequest $request, Response $httpResponse)
+    protected function logRequestResponse(LalamoveRequest $request, Response $httpResponse): void
     {
         if (!$request->getSettings()->logger) {
             return;
@@ -88,9 +76,6 @@ class GuzzleTransport implements TransportInterface
 
     /**
      * Log request which failed before connecting to the server
-     * @param LalamoveRequest $request
-     * @param string $message
-     * @return void
      */
     protected function logRequestFailure(LalamoveRequest $request, string $failureMessage)
     {
@@ -108,19 +93,18 @@ class GuzzleTransport implements TransportInterface
 
     /**
      * Helper method to convert a domain LalamoveRequest to the guzzle's one
-     *
-     * @param LalamoveRequest $request
-     * @return Request
      */
     protected function convertRequest(LalamoveRequest $request): Request
     {
         $uri  = $request->getFullPath();
         $body = "";
+
         if ($request->getMethod() == "GET") {
             $uri .= "?" . http_build_query($request->getParams());
         } else {
             $body = json_encode($request->getParams());
         }
+
         return new Request($request->getMethod(), $uri, $request->getHeaders(), $body);
     }
 }

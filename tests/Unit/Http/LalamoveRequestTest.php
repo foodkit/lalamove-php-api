@@ -2,6 +2,7 @@
 
 namespace LalamoveTests\Unit\Http;
 
+use Lalamove\Client\V2\Settings;
 use Lalamove\Http\Clock\ClockInterface;
 use Lalamove\Http\LalamoveRequest;
 use Lalamove\Http\Uuid\UuidGeneratorInterface;
@@ -10,10 +11,9 @@ use LalamoveTests\Helpers\DummySettings;
 
 class LalamoveRequestTest extends BaseTest
 {
-    protected $settings;
-
-    protected $uuid;
-    protected $clock;
+    protected Settings|DummySettings $settings;
+    protected MockedUuidGenerator $uuid;
+    protected MockedClock $clock;
 
     public function setUp(): void
     {
@@ -53,13 +53,44 @@ class LalamoveRequestTest extends BaseTest
         $this->assertArrayHasKey('X-Request_ID', $headers);
     }
 
+    public function test_it_generates_authorization_header_v3()
+    {
+        $request = $this->makeRequest('GET', 'v3/orders', []);
+        $headers = $request->getHeaders();
+        $this->assertArrayHasKey('Authorization', $headers);
+    }
+
+    public function test_authorization_header_is_correctly_formatted_v3()
+    {
+        $request = $this->makeRequest('GET', 'v3/orders', []);
+        $authorization = $request->getHeaders()['Authorization'];
+        $parts = explode(':', $authorization);
+        $this->assertCount(3, $parts);
+    }
+
+    public function test_content_type_headers_are_present_v3()
+    {
+        $request = $this->makeRequest('GET', 'v3/orders', []);
+        $headers = $request->getHeaders();
+        $this->assertArrayHasKey('Accept', $headers);
+        $this->assertArrayHasKey('Content-type', $headers);
+    }
+
+    public function test_lalamove_headers_are_present_v3()
+    {
+        $request = $this->makeRequest('GET', 'v3/orders', []);
+        $headers = $request->getHeaders();
+        $this->assertArrayHasKey('X-LLM-Country', $headers);
+        $this->assertArrayHasKey('X-Request_ID', $headers);
+    }
+
     /**
      * @param $method
      * @param $endpoint
      * @param $params
      * @return LalamoveRequest
      */
-    protected function makeRequest($method, $endpoint, $params)
+    protected function makeRequest($method, $endpoint, $params): LalamoveRequest
     {
         return new LalamoveRequest($this->settings, $method, $endpoint, $params, $this->uuid, $this->clock);
     }
@@ -73,7 +104,7 @@ class LalamoveRequestTest extends BaseTest
  */
 class MockedUuidGenerator implements UuidGeneratorInterface
 {
-    public function getUuid()
+    public function getUuid(): string
     {
         return '5ad85c150206a';
     }
@@ -86,12 +117,12 @@ class MockedUuidGenerator implements UuidGeneratorInterface
  */
 class MockedClock implements ClockInterface
 {
-    public function getCurrentTimeInSeconds()
+    public function getCurrentTimeInSeconds(): int
     {
         return 1524130393;
     }
 
-    public function getCurrentTimeInMilliseconds()
+    public function getCurrentTimeInMilliseconds(): int
     {
         return $this->getCurrentTimeInSeconds() * 1000;
     }

@@ -6,10 +6,10 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Lalamove\Exceptions\UnauthorizedException;
-use Lalamove\Quotation;
-use Lalamove\Resources\QuotationsResource;
+use Lalamove\Requests\V2\Quotation;
 use LalamoveTests\BaseTest;
 use LalamoveTests\Helpers\DummySettings;
+use LalamoveTests\Mock\MockedExceptionThrowingTransport;
 
 class QuotationsResourceTest extends BaseTest
 {
@@ -21,7 +21,7 @@ class QuotationsResourceTest extends BaseTest
         $transport = new MockedExceptionThrowingTransport($ex);
 
         $this->expectException(UnauthorizedException::class);
-        $resource = new QuotationsResource(new DummySettings(), $transport);
+        $resource = new \Lalamove\Resources\V2\QuotationsResource(new DummySettings(), $transport);
         $resource->create(new Quotation());
     }
 }
