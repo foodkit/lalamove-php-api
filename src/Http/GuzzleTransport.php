@@ -36,7 +36,8 @@ class GuzzleTransport implements TransportInterface
         $params  = $request->getParams();
         $headers = $request->getHeaders();
 
-        $payload                                       = ['headers' => $headers];
+        $payload = ['headers' => $headers];
+
         $payload[$method === 'GET' ? 'query' : 'json'] = $params;
 
         try {

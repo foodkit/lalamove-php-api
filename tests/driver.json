@@ -1,0 +1,14 @@
+{
+    "data": {
+        "driverId": "33522",
+        "name": "David",
+        "phone": "37013701",
+        "plateNumber": "**LAM0V*",
+        "photo": "<PROFILE_PHOTO_URL>",
+        "coordinates": {
+            "lat": "13.740167",
+            "lng": "100.535237",
+            "updatedAt": "2021-12-01T14:30.00Z"
+        } 
+    }
+}

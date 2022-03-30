@@ -2,6 +2,7 @@
 
 namespace Lalamove\Http;
 
+use Lalamove\Client\V3\Settings;
 use Lalamove\Http\Clock\ClockInterface;
 use Lalamove\Http\Clock\PslTimeClock;
 use Lalamove\Http\Uuid\PslUniqidGenerator;
@@ -9,7 +10,6 @@ use Lalamove\Http\Uuid\UuidGeneratorInterface;
 
 class LalamoveRequest
 {
-    /** @var \Lalamove\Client\Settings */
     protected $settings;
     /** @var string */
     protected $method;
@@ -43,7 +43,6 @@ class LalamoveRequest
         $this->method   = $method;
         $this->uri      = $uri;
         $this->params   = $this->object2array($params);
-
         // Dependency injected for easier unit testing:
 
         if (is_null($uuid)) {
@@ -96,7 +95,6 @@ class LalamoveRequest
     {
         $host    = $this->settings->host;
         $version = $this->settings->version;
-
         return "{$host}/v{$version}/{$this->uri}";
     }
 
@@ -105,6 +103,10 @@ class LalamoveRequest
      */
     public function getParams()
     {
+        if ($this->settings->version === Settings::VERSION_3) {
+            return ['data' => $this->params];
+        }
+
         return $this->params;
     }
 
@@ -112,6 +114,18 @@ class LalamoveRequest
      * @return array
      */
     public function getHeaders()
+    {
+        switch ($this->settings->version) {
+            case 2:
+                return $this->getV2Headers();
+            case 3:
+                return $this->getV3Headers();
+            default:
+                throw new \RuntimeException("Unknown version number {$this->settings->version}!");
+        }
+    }
+
+    private function getV2Headers(): array
     {
         $customerId = $this->settings->customerId;
         $privateKey = $this->settings->privateKey;
@@ -140,10 +154,43 @@ class LalamoveRequest
         ];
     }
 
+    private function getV3Headers(): array
+    {
+        $secretKey = $this->settings->apiSecret;
+        $country    = $this->settings->country;
+
+        $requestTime = $this->clock->getCurrentTimeInMilliseconds();
+
+        $uuid = $this->uuid->getUuid();
+        $uri  = str_replace($this->settings->host, '', $this->getFullPath());
+
+        $body    = json_encode($this->getParams());
+        $message = "{$requestTime}\r\n{$this->method}\r\n{$uri}\r\n\r\n";
+
+        if ($this->method != 'GET') {
+            $message .= $body;
+        }
+
+        $publicKey = $this->settings->apiKey;
+
+        $signature = hash_hmac('sha256', $message, $secretKey);
+        $headers = [
+            // Regex:
+            // /hmac ([A-Fa-f\d]{32}|(pk_test_|pk_prod_)[A-Fa-f\d]{32}):(\d{13}):([A-Fa-f\d]{64})/
+            'Authorization' => "hmac {$publicKey}:{$requestTime}:{$signature}",
+            'Accept' => 'application/json',
+            'Content-type' => 'application/json',
+            'Market' => strtoupper($country),
+            'Request-ID' => $uuid,
+        ];
+
+        return $headers;
+    }
+
     /**
-     * @return \Lalamove\Client\Settings
+     * @todo: replace typing
      */
-    public function getSettings(): \Lalamove\Client\Settings
+    public function getSettings()
     {
         return $this->settings;
     }

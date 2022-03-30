@@ -6,6 +6,8 @@ This provides a PHP wrapper around the Lalamove API.
 
 Built and maintained by [Foodkit](https://foodkit.io).
 
+See [https://partnerportal.lalamove.com/](https://partnerportal.lalamove.com/).
+
 ## Design goals ##
 
 * **Lean on the IDE**. We should leverage the IDE (autocompletion) to _help_ the developer to use the library.
@@ -31,23 +33,23 @@ OK (11 tests, 23 assertions)
 ```php
 <?php
 
-$settings = new \Lalamove\Client\Settings(
+$settings = new \Lalamove\Client\V2\Settings(
     'https://sandbox-rest.lalamove.com',
     // These are fake, don't try and use them:
     'wgmsqqh208fxic9vcqwruk2tciicielf', // customerId
     'kGEX69NLd33+J/FQGdx8jOLAO1JZVPrHzQpuZDrWGxlftbu2tKFiVkptTSfPaj==', // privateKey
-    \Lalamove\Client\Settings::COUNTRY_SINGAPORE // country
+    \Lalamove\Client\V2\Settings::COUNTRY_SINGAPORE // country
 );
 
-$client = new Lalamove\Client\Client($settings);
+$client = new Lalamove\Client\V2\Client($settings);
 
 // Create a quote:
-$quotation = new \Lalamove\Quotation();
+$quotation = new \Lalamove\Requests\V2\Quotation();
 // ...prepare the quotation object...
 $quotationResponse = $client->quotations()->create($quotation);
 
 // Create an order:
-$order = \Lalamove\Order::makeFromQuote($quotation, $quotationResponse, 'unique-order-id', false);
+$order = \Lalamove\Requests\V2\Order::makeFromQuote($quotation, $quotationResponse, 'unique-order-id', false);
 $orderResponse = $client->orders()->create($order);
 
 // Fetch order details:
