@@ -8,15 +8,14 @@ use Lalamove\Resources\AbstractResource;
 
 class QuotationsResource extends AbstractResource
 {
-    public function create(Quotation $quotation)
+    public function create(Quotation $quotation): QuotationResponse
     {
-        // @todo: just for testing below, needs to be refactored
         $response = $this->send('POST', 'quotations', $quotation);
 
         return new QuotationResponse($response);
     }
 
-    public function get(string $quotationId)
+    public function get(string $quotationId): QuotationResponse
     {
         $response = $this->send('GET', "quotations/$quotationId");
 

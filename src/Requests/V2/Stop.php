@@ -12,44 +12,29 @@ class Stop
     const LOCALE_TH_EN = 'en_TH';
     const LOCALE_PH_EN = 'en_PH';
 
-    /** @var Location */
-    public $location;
+    public Location $location;
 
-    /** @var string */
-    public $placeId;
+    public string $placeId;
 
-    /** @var array */
-    public $addresses;
+    /** @var Address[] */
+    public array $addresses;
 
     /**
      * Stop constructor.
-     * @param $location
-     * @param string $placeId
-     * @param array $addresses
      */
-    public function __construct($location, $placeId = '', $addresses = [])
+    public function __construct(Location $location, $placeId = '', $addresses = [])
     {
-        $this->location = $location;
-        $this->placeId = $placeId;
+        $this->location  = $location;
+        $this->placeId   = $placeId;
         $this->addresses = $addresses;
     }
 
-    /**
-     * @param $location
-     * @param string $placeId
-     * @param array $addresses
-     * @return static
-     */
-    public static function make($location, $placeId = '', $addresses = [])
+    public static function make(Location $location, $placeId = '', $addresses = []): static
     {
         return new static($location, $placeId, $addresses);
     }
 
-    /**
-     * @param string $locale
-     * @param Address $address
-     */
-    public function addAddress($locale, $address)
+    public function addAddress(string $locale, Address $address)
     {
         $this->addresses[$locale] = $address;
     }

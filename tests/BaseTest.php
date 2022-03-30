@@ -21,7 +21,7 @@ abstract class BaseTest extends TestCase
     public function prepareQuotation(): Quotation
     {
         $item = new Item('3', 'LESS_THAN_3KG', [Item::CATEGORY_FOOD_DELIVERY], [Item::HANDLING_INSTRUCTIONS_KEEP_UPRIGHT]);
-        $scheduledAt = (new Carbon())->addMinute(1);
+        $scheduledAt = (new Carbon())->addMinute(5);
 
         $quotation = Quotation::make($scheduledAt, 'en_TH', [
             [
@@ -50,7 +50,7 @@ abstract class BaseTest extends TestCase
         return $quotation;
     }
 
-    public function prepareOrder()
+    public function prepareOrder(): Order
     {
         $client = $this->getClient();
 
@@ -73,11 +73,11 @@ abstract class BaseTest extends TestCase
         return $order;
     }
 
-    public function createClientMock($responseJSONFile)
+    public function createClientMock($responseJSONFile): Client
     {
         // Create a mock and queue two responses.
         $mock = new MockHandler([
-            new Response(200, ['X-Foo' => 'Bar'], json_encode(json_decode(file_get_contents(__DIR__ . "/$responseJSONFile.json"), true))),
+            new Response(200, ['X-Foo' => 'Bar'], json_encode(json_decode(file_get_contents(__DIR__ . "/{$responseJSONFile}.json"), true))),
         ]);
 
         $handlerStack = HandlerStack::create($mock);

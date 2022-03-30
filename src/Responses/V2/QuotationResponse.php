@@ -4,14 +4,14 @@ namespace Lalamove\Responses\V2;
 
 class QuotationResponse
 {
-    public $totalFeeCurrency;
-    public $totalFee;
+    public string $totalFeeCurrency;
+
+    public string $totalFee;
 
     /**
      * Pass in the deserialized JSON response to populate all relevant fields.
-     * @param object $response
      */
-    public function __construct($response = null)
+    public function __construct(object $response = null)
     {
         $this->totalFeeCurrency = $response ? $response->totalFeeCurrency : null;
         $this->totalFee = $response ? $response->totalFee : null;

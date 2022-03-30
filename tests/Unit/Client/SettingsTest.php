@@ -8,17 +8,17 @@ use LalamoveTests\BaseTest;
 
 class SettingsTest extends BaseTest
 {
-    public $testHost = 'https://testhost.com';
-    public $testCustomerId = 'wgmsqqh208fxic9vcqwruk2tciicielf';
-    public $testPrivateKey = 'kGEX69NLd33+J/FQGdx8jOLAO1JZVPrHzQpuZDrWGxlftbu2tKFiVkptTSfPaj==';
-    public $testCountry = 'JP';
-    public $testVersion = 42;
+    public string $testHost = 'https://v2.testhost.com';
+    public string $testCustomerId = 'wgmsqqh208fxic9vcqwruk2tciicielf';
+    public string $testPrivateKey = 'kGEX69NLd33+J/FQGdx8jOLAO1JZVPrHzQpuZDrWGxlftbu2tKFiVkptTSfPaj==';
+    public string $testCountry = 'JP';
+    public int $testVersion = 42;
 
-    public $v3host = 'https://testhost.com';
-    public $v3apiKey = 'wgmsqqh208fxic9vcqwruk2tciicielf';
-    public $v3apiSecret = 'kGEX69NLd33+J/FQGdx8jOLAO1JZVPrHzQpuZDrWGxlftbu2tKFiVkptTSfPaj==';
-    public $v3country = 'JP';
-    public $v3version = 3;
+    public string $v3host = 'https://v3.testhost.com';
+    public string $v3apiKey = 'wgmsqqh208fxic9vcqwruk2tciicielf';
+    public string $v3apiSecret = 'kGEX69NLd33+J/FQGdx8jOLAO1JZVPrHzQpuZDrWGxlftbu2tKFiVkptTSfPaj==';
+    public string $v3country = 'JP';
+    public int $v3version = 3;
 
     public function test_it_works_with_individual_parameters()
     {

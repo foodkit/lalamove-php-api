@@ -8,33 +8,24 @@ use Lalamove\Resources\V2\QuotationsResource;
 
 class Client
 {
-    protected $settings;
+    protected Settings $settings;
 
     public function __construct(Settings $settings)
     {
         $this->settings = $settings;
     }
 
-    /**
-     * @return \Lalamove\Resources\V2\OrdersResource
-     */
-    public function orders()
+    public function orders(): OrdersResource
     {
         return new OrdersResource($this->settings);
     }
 
-    /**
-     * @return QuotationsResource
-     */
-    public function quotations()
+    public function quotations(): QuotationsResource
     {
         return new QuotationsResource($this->settings);
     }
 
-    /**
-     * @return DriversResource
-     */
-    public function drivers()
+    public function drivers(): DriversResource
     {
         return new DriversResource($this->settings);
     }

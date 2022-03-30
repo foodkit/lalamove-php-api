@@ -12,6 +12,8 @@ use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
+use Lalamove\Client\V2\Settings as V2Settings;
+use Lalamove\Client\V3\Settings as V3Settings;
 use Lalamove\Http\GuzzleTransport;
 use Lalamove\Http\LalamoveRequest;
 use LalamoveTests\BaseTest;
@@ -21,9 +23,9 @@ use Psr\Log\LoggerInterface;
 class GuzzleTransportTest extends BaseTest
 {
 
-    protected $settings;
-    protected $uuid;
-    protected $clock;
+    protected V2Settings|V3Settings|DummySettings $settings;
+    protected MockedUuidGenerator $uuid;
+    protected MockedClock $clock;
 
     public function setUp(): void
     {
@@ -138,7 +140,7 @@ class GuzzleTransportTest extends BaseTest
         }
     }
 
-    public function test_lalamove__v3_request_response_is_logged_correctly()
+    public function test_lalamove_v3_request_response_is_logged_correctly()
     {
         // Make a request
         $request = $this->makeRequest('GET', 'v3/orders', []);
@@ -172,13 +174,7 @@ class GuzzleTransportTest extends BaseTest
         $transport->send($request);
     }
 
-    /**
-     * @param $method
-     * @param $endpoint
-     * @param $params
-     * @return LalamoveRequest
-     */
-    protected function makeRequest($method, $endpoint, $params)
+    protected function makeRequest(string $method, string $endpoint, array $params): LalamoveRequest
     {
         return new LalamoveRequest($this->settings, $method, $endpoint, $params, $this->uuid, $this->clock);
     }

@@ -2,7 +2,8 @@
 
 namespace Lalamove\Http;
 
-use Lalamove\Client\V3\Settings;
+use Lalamove\Client\V3\Settings as V3Settings;
+use Lalamove\Client\V2\Settings as V2Settings;
 use Lalamove\Http\Clock\ClockInterface;
 use Lalamove\Http\Clock\PslTimeClock;
 use Lalamove\Http\Uuid\PslUniqidGenerator;
@@ -10,27 +11,18 @@ use Lalamove\Http\Uuid\UuidGeneratorInterface;
 
 class LalamoveRequest
 {
-    protected $settings;
-    /** @var string */
-    protected $method;
-    /** @var string */
-    protected $uri;
-    /** @var array */
-    protected $params;
-    /** @var UuidGeneratorInterface */
-    protected $uuid;
-    /** @var ClockInterface */
-    protected $clock;
+    protected V2Settings|V3Settings $settings;
 
-    /**
-     * LalamoveRequest constructor.
-     * @param $settings
-     * @param string $method
-     * @param string $uri
-     * @param array $params
-     * @param UuidGeneratorInterface|null $uuid
-     * @param ClockInterface $clock
-     */
+    protected string $method;
+
+    protected string $uri;
+
+    protected array $params;
+
+    protected ?UuidGeneratorInterface $uuid = null;
+
+    protected ?ClockInterface $clock = null;
+
     public function __construct(
         $settings,
         $method = 'GET',
@@ -43,8 +35,8 @@ class LalamoveRequest
         $this->method   = $method;
         $this->uri      = $uri;
         $this->params   = $this->object2array($params);
-        // Dependency injected for easier unit testing:
 
+        // Dependency injected for easier unit testing:
         if (is_null($uuid)) {
             $uuid = new PslUniqidGenerator();
         }
@@ -57,13 +49,9 @@ class LalamoveRequest
         $this->clock = $clock;
     }
 
-    /**
-     * @param $o
-     * @return array
-     */
-    protected function object2array($o)
+    protected function object2array(array|object $o): array
     {
-        $a = (array)$o;
+        $a = (array) $o;
         foreach ($a as &$v) {
             if (is_object($v) || is_array($v)) {
                 $v = $this->object2array($v);
@@ -72,38 +60,27 @@ class LalamoveRequest
         return $a;
     }
 
-    /**
-     * @return string
-     */
-    public function getMethod()
+    public function getMethod(): string
     {
         return $this->method;
     }
 
-    /**
-     * @return string
-     */
-    public function getUri()
+    public function getUri(): string
     {
         return $this->uri;
     }
 
-    /**
-     * @return string
-     */
-    public function getFullPath()
+    public function getFullPath(): string
     {
         $host    = $this->settings->host;
         $version = $this->settings->version;
+
         return "{$host}/v{$version}/{$this->uri}";
     }
 
-    /**
-     * @return array
-     */
-    public function getParams()
+    public function getParams(): array
     {
-        if ($this->settings->version === Settings::VERSION_3) {
+        if ($this->settings->version === V3Settings::VERSION_3) {
             return ['data' => $this->params];
         }
 
@@ -111,9 +88,9 @@ class LalamoveRequest
     }
 
     /**
-     * @return array
+     * @throws \RuntimeException
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         switch ($this->settings->version) {
             case 2:
@@ -187,10 +164,7 @@ class LalamoveRequest
         return $headers;
     }
 
-    /**
-     * @todo: replace typing
-     */
-    public function getSettings()
+    public function getSettings(): V2Settings|V3Settings
     {
         return $this->settings;
     }

@@ -2,30 +2,31 @@
 
 namespace Lalamove\Resources\V3;
 
+use Lalamove\Client\V3\Settings;
+use Lalamove\Http\GuzzleTransport;
 use Lalamove\Resources\AbstractResource;
 use Lalamove\Responses\V3\DriverResponse;
+use LalamoveTests\Helpers\DummySettings;
+use LalamoveTests\Mock\MockedExceptionThrowingTransport;
 
 class DriversResource extends AbstractResource
 {
     /**
      * OrdersResource constructor.
-     * @param $settings
      */
-    public function __construct($settings, $transport = null)
+    public function __construct(Settings|DummySettings $settings, GuzzleTransport|MockedExceptionThrowingTransport $transport = null)
     {
         parent::__construct($settings, $transport);
     }
 
     /**
-     * @param $orderId
-     * @param $driverId
-     * @return \Lalamove\Responses\V3\DriverResponse
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Lalamove\Exceptions\LalamoveException
      */
-    public function get($orderId, $driverId)
+    public function get(string $orderId, string $driverId): DriverResponse
     {
         $response = $this->send('GET', "orders/{$orderId}/drivers/{$driverId}");
+
         return new DriverResponse($response);
     }
 }

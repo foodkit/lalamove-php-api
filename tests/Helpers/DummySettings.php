@@ -6,7 +6,7 @@ use Lalamove\Client\V2\Settings;
 
 class DummySettings extends Settings
 {
-    public function __construct($host = '', $customerId = '', $privateKey = '', $country = '', $version = 2)
+    public function __construct(array|string $host = '', string $customerId = '', string $privateKey = '', string $country = '', int $version = 2)
     {
         parent::__construct([
             // These are NOT real, don't try and use them.

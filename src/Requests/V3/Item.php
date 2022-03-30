@@ -10,15 +10,17 @@ class Item
     const HANDLING_INSTRUCTIONS_KEEP_UPRIGHT = 'KEEP_UPRIGHT';
     const HANDLING_INSTRUCTIONS_FRAGILE = 'FRAGILE';
 
-    public $quantity;
+    public string $quantity;
 
-    public $weight;
+    public string $weight;
 
-    public $categories;
+    /** @var string[] */
+    public array $categories = [];
 
-    public $handlingInstructions;
+    /** @var string[] */
+    public array $handlingInstructions = [];
 
-    public function __construct($quantity, $weight, $categories, $handlingInstructions)
+    public function __construct(string $quantity, string $weight, array $categories = [], array $handlingInstructions = [])
     {
         $this->quantity = $quantity;
         $this->weight = $weight;

@@ -4,13 +4,9 @@ namespace Lalamove\Exceptions;
 
 class LalamoveException extends \RuntimeException
 {
-    /** @var int */
     protected static $statusCode;
 
-    /**
-     * @return int
-     */
-    public function getStatusCode()
+    public function getStatusCode(): int
     {
         return static::$statusCode;
     }

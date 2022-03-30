@@ -2,14 +2,21 @@
 
 namespace Lalamove\Responses\V3;
 
+use Lalamove\Requests\V3\Location;
+
 class DriverResponse
 {
-    public $driverId;
-    public $name;
-    public $phone;
-    public $plateNumber;
-    public $photo;
-    public $coordinates;
+    public string $driverId;
+
+    public string $name;
+
+    public string $phone;
+
+    public string $plateNumber;
+
+    public string $photo;
+
+    public Location $coordinates;
 
     /**
      * Pass in the deserialized JSON response to populate all relevant fields.
@@ -28,6 +35,6 @@ class DriverResponse
         $this->phone = $response ? $response->phone : "";
         $this->plateNumber = $response ? $response->plateNumber : "";
         $this->photo = $response ? $response->photo : "";
-        $this->coordinates = $response ? $response->coordinates : null;
+        $this->coordinates = $response ? new Location($response->coordinates->lat, $response->coordinates->lng) : null;
     }
 }

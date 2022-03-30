@@ -4,36 +4,30 @@ namespace Lalamove\Requests\V3;
 
 class Stop
 {
-    /** @var string */
-    public $stopId;
+    public string $stopId;
 
-    /** @var Location */
-    public $coordinates;
+    public Location $coordinates;
 
-    /** @var array */
-    public $address;
+    public string $address;
+
+    public string $name;
+
+    public string $phone;
 
     /**
      * Stop constructor.
-     * @param  string $stopId // from quotation
-     * @param Location $coordinates
-     * @param string $address
      */
-    public function __construct($stopId, $coordinates, $address = '')
+    public function __construct(string $stopId, Location $coordinates, $address = '', $name = '', $phone = '')
     {
         $this->stopId = $stopId;
         $this->coordinates = $coordinates;
         $this->address = $address;
+        $this->name = $name;
+        $this->phone = $phone;
     }
 
-    /**
-     * @param string $stopId
-     * @param Location $coordinates
-     * @param string $address
-     * @return static
-     */
-    public static function make($stopId, $coordinates, $address = '')
+    public static function make(string $stopId, Location $coordinates, $address = '', $name = '', $phone = '')
     {
-        return new static($stopId, $coordinates, $address);
+        return new static($stopId, $coordinates, $address, $name, $phone);
     }
 }

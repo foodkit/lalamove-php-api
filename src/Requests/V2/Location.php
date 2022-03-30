@@ -4,26 +4,19 @@ namespace Lalamove\Requests\V2;
 
 class Location
 {
-    public $lat;
-    public $lng;
+    public string $lat;
+    public string $lng;
 
     /**
      * Location constructor.
-     * @param $lat
-     * @param $lng
      */
-    public function __construct($lat, $lng)
+    public function __construct(string $lat, string $lng)
     {
         $this->lat = $lat;
         $this->lng = $lng;
     }
 
-    /**
-     * @param $lat
-     * @param $lng
-     * @return static
-     */
-    public static function make($lat, $lng)
+    public static function make(string $lat, string $lng): static
     {
         return new static($lat, $lng);
     }

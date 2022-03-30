@@ -17,6 +17,7 @@ class QuotationTest extends BaseTest
     {
         $quotation = new Quotation();
         $arrQuotation = (array) $quotation;
+
         $this->assertArrayHasKey('scheduleAt', $arrQuotation);
     }
 

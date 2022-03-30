@@ -2,11 +2,9 @@
 
 namespace Lalamove\Http;
 
+use stdClass;
+
 interface TransportInterface
 {
-    /**
-     * @param LalamoveRequest $request
-     * @return mixed
-     */
-    public function send(LalamoveRequest $request);
+    public function send(LalamoveRequest $request): null | stdClass;
 }

@@ -4,14 +4,14 @@ namespace Lalamove\Responses\V2;
 
 class OrderResponse
 {
-    public $customerOrderId;
-    public $orderRef;
+    public string $customerOrderId;
+    
+    public string $orderRef;
 
     /**
      * Pass in the deserialized JSON response to populate all relevant fields.
-     * @param object $response
      */
-    public function __construct($response = null)
+    public function __construct(object $response = null)
     {
         $this->customerOrderId = $response ? $response->customerOrderId : null;
         $this->orderRef = $response ? $response->orderRef : null;

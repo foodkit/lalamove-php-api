@@ -4,29 +4,23 @@ namespace Lalamove\Requests\V3;
 
 class Address
 {
-    /** @var string */
-    public $displayString;
-    /** @var string */
-    public $country;
-    /** @var string */
-    public $city;
-    /** @var string */
-    public $floor;
-    /** @var string */
-    public $room;
-    /** @var string */
-    public $remarks;
+
+    public string $displayString;
+
+    public string $country;
+
+    public string $city;
+
+    public string $floor;
+
+    public string $room;
+
+    public string $remarks;
 
     /**
      * Address constructor.
-     * @param $displayString
-     * @param string $city
-     * @param string $country
-     * @param null $floor
-     * @param null $room
-     * @param null $remarks
      */
-    public function __construct($displayString, $city = '', $country = '', $floor = null, $room = null, $remarks = null)
+    public function __construct(string $displayString, $city = '', $country = '', $floor = null, $room = null, $remarks = null)
     {
         $this->displayString = $displayString;
         $this->city = $city;
@@ -36,16 +30,7 @@ class Address
         $this->remarks = $remarks;
     }
 
-    /**
-     * @param $displayString
-     * @param $city
-     * @param $country
-     * @param null $floor
-     * @param null $room
-     * @param null $remarks
-     * @return static
-     */
-    public static function make($displayString, $city, $country, $floor = null, $room = null, $remarks = null)
+    public static function make(string $displayString, string $city, string $country, string $floor = null, string $room = null, string $remarks = null)
     {
         return new static($displayString, $city, $country, $floor, $room, $remarks);
     }

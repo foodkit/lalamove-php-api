@@ -4,28 +4,24 @@ namespace Lalamove\Requests\V3;
 
 class Contact
 {
-    public $name;
-    public $phone;
-    public $stopId = '';
+
+    public string $name;
+
+    public string $phone;
+
+    public string $stopId = '';
 
     /**
      * Contact constructor.
-     * @param $name
-     * @param $phone
      */
-    public function __construct($name, $phone, $stopId = '')
+    public function __construct(string $name, string $phone, $stopId = '')
     {
         $this->name = $name;
         $this->phone = $phone;
         $this->stopId = $stopId;
     }
 
-    /**
-     * @param $name
-     * @param $phone
-     * @return static
-     */
-    public static function make($name, $phone, $stopId)
+    public static function make(string $name, string $phone, string $stopId): static
     {
         return new static($name, $phone, $stopId);
     }

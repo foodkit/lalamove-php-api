@@ -2,9 +2,6 @@
 
 namespace LalamoveTests\Integration;
 
-use Carbon\Carbon;
-use Lalamove\Requests\V3\Item;
-use Lalamove\Requests\V3\Quotation;
 use LalamoveTests\BaseTest;
 
 class CreateBookingTest extends BaseTest

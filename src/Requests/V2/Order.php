@@ -6,21 +6,13 @@ use Lalamove\Responses\V2\QuotationResponse;
 
 class Order extends Quotation
 {
-    /** @var QuotedTotalFee */
-    public $quotedTotalFee;
-    /** @var string */
-    public $callerSideCustomerOrderId;
-    /** @var bool */
-    public $sms = true;
+    public QuotedTotalFee $quotedTotalFee;
 
-    /**
-     * @param Quotation $quotation
-     * @param \Lalamove\Responses\V2\QuotationResponse $response
-     * @param string $callerSideCustomerOrderId
-     * @param bool $sms
-     * @return static
-     */
-    public static function makeFromQuote(Quotation $quotation, QuotationResponse $response, $callerSideCustomerOrderId = '', $sms = true)
+    public string $callerSideCustomerOrderId;
+
+    public bool $sms = true;
+
+    public static function makeFromQuote(Quotation $quotation, QuotationResponse $response, $callerSideCustomerOrderId = '', $sms = true): static
     {
         $instance = new static;
         $instance->set(

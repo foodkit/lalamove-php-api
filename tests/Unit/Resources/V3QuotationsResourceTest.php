@@ -26,8 +26,6 @@ class V3QuotationsResourceTest extends BaseTest
 
         $resource = new \Lalamove\Resources\V3\QuotationsResource(new DummySettings(), $transport);
         $resource = $resource->create(new Quotation());
-
-        print_r($resource);
     }
 
     public function test_it_should_create_quotation()

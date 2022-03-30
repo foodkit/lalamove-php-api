@@ -12,14 +12,14 @@ class OrderDetailsResponse
     const STATE_CANCELED = 'CANCELED';
     const STATE_REJECTED = 'REJECTED';
 
-    public $driverId;
-    public $status;
+    public string $driverId;
+
+    public string $status;
 
     /**
      * Pass in the deserialized JSON response to populate all relevant fields.
-     * @param object $response
      */
-    public function __construct($response = null)
+    public function __construct(object $response = null)
     {
         $this->driverId = $response ? $response->driverId : null;
         $this->status = $response ? $response->status : null;

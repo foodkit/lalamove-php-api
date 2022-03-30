@@ -6,12 +6,12 @@ use Psr\Log\LoggerInterface;
 
 class Settings
 {
-    public $host;
-    public $customerId;
-    public $privateKey;
-    public $country;
-    public $version;
-    public $logger;
+    public string|array $host;
+    public string $customerId;
+    public string $privateKey;
+    public string $country;
+    public int $version;
+    public ?LoggerInterface $logger = null;
 
     const COUNTRY_HONGKONG = 'HK';
     const COUNTRY_PHILIPPINES = 'PH';
@@ -29,13 +29,6 @@ class Settings
      * ... or an associative array of settings:
      *
      * $settings = new Settings(['host' => 'host.com', 'customerId' => '1234567890', 'privateKey' => // etc...
-     *
-     * @param string|array $host
-     * @param string $customerId
-     * @param string $privateKey
-     * @param string $country
-     * @param int $version
-     * @param LoggerInterface|null $logger to log each request/response pair the HTTP client handles
      */
     public function __construct(
         $host,

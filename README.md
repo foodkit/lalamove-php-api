@@ -33,34 +33,55 @@ OK (11 tests, 23 assertions)
 ```php
 <?php
 
-$settings = new \Lalamove\Client\V2\Settings(
+$settings = new \Lalamove\Client\V3\Settings(
     'https://sandbox-rest.lalamove.com',
-    // These are fake, don't try and use them:
-    'wgmsqqh208fxic9vcqwruk2tciicielf', // customerId
-    'kGEX69NLd33+J/FQGdx8jOLAO1JZVPrHzQpuZDrWGxlftbu2tKFiVkptTSfPaj==', // privateKey
-    \Lalamove\Client\V2\Settings::COUNTRY_SINGAPORE // country
+    'API_KEY',
+    'API_SECRET',
+    \Lalamove\Client\V3\Settings::COUNTRY_SINGAPORE // country
 );
 
-$client = new Lalamove\Client\V2\Client($settings);
+$client = new Lalamove\Client\V3\Client($settings);
 
 // Create a quote:
-$quotation = new \Lalamove\Requests\V2\Quotation();
+$quotation = new \Lalamove\Requests\V3\Quotation();
+
 // ...prepare the quotation object...
 $quotationResponse = $client->quotations()->create($quotation);
 
-// Create an order:
-$order = \Lalamove\Requests\V2\Order::makeFromQuote($quotation, $quotationResponse, 'unique-order-id', false);
+// Get quotation by id
+$quotationDetailsResponse = $client->quotations()->create($quotation->quotationId);
+
+// Create an order
+// Provide the quotationID and stopId received from create quote and add contact information for both the sender and recipients
+$contact = new \Lalamove\Requests\V3\Contact('Contact Name', '+65991111110', 'stop_id_from_quotation');
+
+// recipient contact and instruction per stop
+$recipients = [
+    [
+        'stopId' => 'stop_id_1',
+        'name' => 'name',
+        //  Must be a valid number with region code (ex: +65)
+        'phone' => '+65991111111',
+    ], [
+        'stopId' => 'stop_id_2',
+        'name' => 'name',
+        //  Must be a valid number with region code (ex: +65)
+        'phone' => '+65991111112',
+    ]
+];
+
+$order = new \Lalamove\Requests\V3\Order($quotationId, $sender, $recipients);
 $orderResponse = $client->orders()->create($order);
 
 // Fetch order details:
-$details = $client->orders()->details($orderResponse->customerOrderId);
+$details = $client->orders()->details($orderResponse->orderId);
 
 // Get the driver:
-$driver = $client->drivers()->get($orderResponse->customerOrderId, $details->driverId);
-$driverLocation = $client->drivers()->getLocation($orderResponse->customerOrderId, $details->driverId);
+// driverId from create order or by order details response
+$driver = $client->drivers()->get($details->orderId, $details->driverId);
 
 // Cancel the order:
-$details = $client->orders()->cancel($orderResponse->customerOrderId);
+$details = $client->orders()->cancel($orderResponse->orderId);
 ```
 
 ## Errors ##
@@ -88,4 +109,3 @@ try {
 ## Contributing ##
 
 Open a PR against master. Please use PSR-x conventions for everything and include tests.
-

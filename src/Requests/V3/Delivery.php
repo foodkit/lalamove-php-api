@@ -4,26 +4,18 @@ namespace Lalamove\Requests\V3;
 
 class Delivery
 {
-    /** @var string */
-    public $stopId;
+    public string $stopId;
     
-    /** @var string */
-    public $name;
+    public string $name;
     
-    /** @var string */
-    public $phone;
+    public string $phone;
 
-    /** @var string */
-    public $remarks;
+    public string $remarks;
 
     /**
      * Delivery constructor.
-     * @param string $stopId
-     * @param string $name
-     * @param string $phone
-     * @param string $remarks
      */
-    public function __construct($stopId, $name, $phone, $remarks = '')
+    public function __construct(string $stopId, string $name, string $phone, string $remarks = '')
     {
         $this->stopId = $stopId;
         $this->name = $name;
@@ -31,14 +23,7 @@ class Delivery
         $this->remarks = $remarks;
     }
 
-    /**
-     * @param string $stopId
-     * @param string $name
-     * @param string $phone
-     * @param string $remarks
-     * @return static
-     */
-    public static function make($stopId, $name, $phone, $remarks = '')
+    public static function make(string $stopId, string $name, string $phone, string $remarks = ''): static
     {
         return new static($stopId, $name, $phone, $remarks);
     }

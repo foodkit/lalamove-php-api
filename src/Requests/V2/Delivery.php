@@ -4,33 +4,23 @@ namespace Lalamove\Requests\V2;
 
 class Delivery
 {
-    /** @var int */
-    public $toStop;
-    /** @var Contact */
-    public $toContact;
-    /** @var string */
-    public $remarks;
+    public int $toStop;
+
+    public Contact $toContact;
+
+    public string $remarks;
 
     /**
      * Delivery constructor.
-     * @param $toStop
-     * @param $toContact
-     * @param string $remarks
      */
-    public function __construct($toStop, $toContact, $remarks = '')
+    public function __construct(int $toStop, Contact $toContact, $remarks = '')
     {
         $this->toStop = $toStop;
         $this->toContact = $toContact;
         $this->remarks = $remarks;
     }
 
-    /**
-     * @param $toStop
-     * @param $toContact
-     * @param string $remarks
-     * @return static
-     */
-    public static function make($toStop, $toContact, $remarks = '')
+    public static function make(int $toStop, Contact $toContact, $remarks = ''): static
     {
         return new static($toStop, $toContact, $remarks);
     }

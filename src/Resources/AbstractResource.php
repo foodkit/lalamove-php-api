@@ -3,6 +3,7 @@
 namespace Lalamove\Resources;
 
 use GuzzleHttp\Exception\RequestException;
+use Lalamove\Client\V3\Settings;
 use Lalamove\Exceptions\ConflictException;
 use Lalamove\Exceptions\ForbiddenException;
 use Lalamove\Exceptions\InvalidRequestException;
@@ -12,18 +13,21 @@ use Lalamove\Exceptions\PaymentRequiredException;
 use Lalamove\Exceptions\ServerException;
 use Lalamove\Exceptions\TooManyRequestsException;
 use Lalamove\Exceptions\UnauthorizedException;
-
 use Lalamove\Http\GuzzleTransport;
 use Lalamove\Http\LalamoveRequest;
+use LalamoveTests\Helpers\DummySettings;
+use LalamoveTests\Mock\MockedExceptionThrowingTransport;
+use stdClass;
 
 abstract class AbstractResource
 {
     const LALAMOVE_TIME_FORMAT = 'Y-m-d\TH:i:00.000\Z';
 
-    protected $transport;
-    protected $settings;
+    protected GuzzleTransport|MockedExceptionThrowingTransport $transport;
 
-    public function __construct($settings, $transport = null)
+    protected Settings|DummySettings $settings;
+
+    public function __construct(Settings|DummySettings $settings, GuzzleTransport|MockedExceptionThrowingTransport $transport = null)
     {
         $this->settings = $settings;
         $this->transport = $transport
@@ -32,13 +36,11 @@ abstract class AbstractResource
     }
 
     /**
-     * @param $method
-     * @param $uri
-     * @param array $params
-     * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\ClientException
+     * @throws \GuzzleHttp\Exception\ServerException
      */
-    protected function send($method, $uri, $params = [])
+    protected function send(string $method, string $uri, $params = []): stdClass|null
     {
         $request = new LalamoveRequest($this->settings, $method, $uri, $params);
 
@@ -57,11 +59,7 @@ abstract class AbstractResource
         }
     }
 
-    /**
-     * @param RequestException $baseException
-     * @return LalamoveException|null
-     */
-    protected function mapClientException(RequestException $baseException)
+    protected function mapClientException(RequestException $baseException): LalamoveException|null
     {
         $typedExceptions = [
             // Client exceptions
