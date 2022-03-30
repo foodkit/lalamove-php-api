@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Requests\V3;
 
 class Item
 {
-    const CATEGORY_FOOD_DELIVERY = 'FOOD_DELIVERY';
-    const CATEGORY_OFFICE_ITEM = 'OFFICE_ITEM';
+    public const CATEGORY_FOOD_DELIVERY = 'FOOD_DELIVERY';
+    public const CATEGORY_OFFICE_ITEM = 'OFFICE_ITEM';
 
-    const HANDLING_INSTRUCTIONS_KEEP_UPRIGHT = 'KEEP_UPRIGHT';
-    const HANDLING_INSTRUCTIONS_FRAGILE = 'FRAGILE';
+    public const HANDLING_INSTRUCTIONS_KEEP_UPRIGHT = 'KEEP_UPRIGHT';
+    public const HANDLING_INSTRUCTIONS_FRAGILE = 'FRAGILE';
 
     public string $quantity;
 

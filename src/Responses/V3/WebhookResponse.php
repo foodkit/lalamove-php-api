@@ -1,15 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Responses\V3;
 
 class WebhookResponse
 {
     public string $url;
 
-    /**
-     * Pass in the deserialized JSON response to populate all relevant fields.
-     * @param object $response
-     */
     public function __construct($response = null)
     {
         $response = $response->data ?? null;

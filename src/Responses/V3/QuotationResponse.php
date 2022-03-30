@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Responses\V3;
 
 use Lalamove\Requests\V3\Stop;
@@ -9,29 +11,23 @@ use Lalamove\Requests\V3\PriceBreakdown;
 
 class QuotationResponse
 {
-    /** @var string  */
-    public $quotationId;
+    public string $quotationId;
 
-    /** @var string */
-    public $scheduleAt;
+    public string $scheduleAt;
 
-    /** @var string */
-    public $expiresAt; // UTC timezone and ISO 8601 format
+    public string $expiresAt; // UTC timezone and ISO 8601 format
 
-    /** @var string */
-    public $serviceType;
+    public string $serviceType;
 
-    /** @var string */
-    public $language;
+    public string $language;
 
-    /** @var array */
-    public $specialRequests; // COD, HELP_BUY, LALABAG
+    /** @var string[] */
+    public array $specialRequests = []; // COD, HELP_BUY, LALABAG
 
     /** @var Stop[] */
-    public $stops;
-   
-    /** @var boolean  */
-    public $isRouteOptimized;
+    public array $stops = [];
+
+    public bool $isRouteOptimized;
 
     public PriceBreakdown $priceBreakdown;
 
@@ -54,18 +50,16 @@ class QuotationResponse
         $this->expiresAt = $responseData->expiresAt ?? null;
         $this->serviceType = $responseData->serviceType ?? null;
         $this->language = $responseData->language ?? null;
-        $this->specialRequests = $responseData->specialRequests ?? null;
+        $this->specialRequests = $responseData->specialRequests ?? [];
 
-        if ($responseData->stops) {
-            foreach($responseData->stops as $stop) {
-                $this->stops[] = new Stop(
-                    $stop->stopId ?? '', 
-                    $stop->coordinates ? new Location($stop->coordinates->lat, $stop->coordinates->lng) : null,
-                    $stop->address ?? '', 
-                    $stop->name ?? '', 
-                    $stop->phone ?? ''
-                );
-            }
+        foreach($responseData->stops ?: [] as $stop) {
+            $this->stops[] = new Stop(
+                $stop->stopId ?? '',
+                $stop->coordinates ? new Location($stop->coordinates->lat, $stop->coordinates->lng) : null,
+                $stop->address ?? '',
+                $stop->name ?? '',
+                $stop->phone ?? ''
+            );
         }
 
         $this->isRouteOptimized = $responseData->isRouteOptimized ?? null;
@@ -89,28 +83,18 @@ class QuotationResponse
     }
 
     /**
-     * 
      * @return Stop[]
      */
-    public function getRecipientStops()
+    public function getRecipientStops(): array
     {
         if (empty($this->stops)) {
-            return null;
+            return [];
         }
-
         return array_slice($this->stops, 1);
     }
 
-    /**
-     * 
-     * @return Stop
-     */
-    public function getSenderStop()
+    public function getSenderStop(): ?Stop
     {
-        if (empty($this->stops)) {
-            return null;
-        }
-
-        return $this->stops[0];
+        return $this->stops[0] ?? null;
     }
 }

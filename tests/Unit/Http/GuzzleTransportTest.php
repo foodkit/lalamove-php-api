@@ -1,8 +1,5 @@
 <?php
-/**
- * @author Dmitriy Lezhnev <lezhnev.work@gmail.com>
- * Date: 31/08/2018
- */
+
 declare(strict_types=1);
 
 namespace LalamoveTests\Unit\Http;
@@ -12,8 +9,6 @@ use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Psr7\Response;
-use Lalamove\Client\V2\Settings as V2Settings;
-use Lalamove\Client\V3\Settings as V3Settings;
 use Lalamove\Http\GuzzleTransport;
 use Lalamove\Http\LalamoveRequest;
 use LalamoveTests\BaseTest;
@@ -23,7 +18,7 @@ use Psr\Log\LoggerInterface;
 class GuzzleTransportTest extends BaseTest
 {
 
-    protected V2Settings|V3Settings|DummySettings $settings;
+    protected $settings;
     protected MockedUuidGenerator $uuid;
     protected MockedClock $clock;
 

@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Exceptions;
 
 class PaymentRequiredException extends LalamoveException
 {
-    protected static $statusCode = 402;
+    protected static int $statusCode = 402;
 }

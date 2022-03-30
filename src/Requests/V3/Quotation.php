@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Requests\V3;
 
 use Carbon\Carbon;
@@ -7,14 +9,15 @@ use Lalamove\Resources\AbstractResource;
 
 class Quotation
 {
-    const SPECIAL_REQUEST_COD = 'COD';
-    const SPECIAL_REQUEST_HELP_BUY = 'HELP_BUY';
-    const SPECIAL_REQUEST_BAG = 'LALABAG';
+    public const SPECIAL_REQUEST_COD = 'COD';
+    public const SPECIAL_REQUEST_HELP_BUY = 'HELP_BUY';
+    public const SPECIAL_REQUEST_BAG = 'LALABAG';
 
-    const FLEET_PRIORITY_NONE = 'NONE';
-    const FLEET_PRIORITY_FLEET_FIRST = 'FLEET_FIRST';
+    public const FLEET_PRIORITY_NONE = 'NONE';
+    public const FLEET_PRIORITY_FLEET_FIRST = 'FLEET_FIRST';
 
-    public Carbon|string $scheduleAt = '';
+    /** @var Carbon|string */
+    public $scheduleAt = '';
 
     public string $serviceType = 'MOTORCYCLE';
 
@@ -27,10 +30,7 @@ class Quotation
     
     public Item $item;
 
-    /**
-     * Quotation constructor.
-     */
-    public static function make(Carbon|string $scheduleAt, string $language, array $stops, Item $item, $serviceType = 'MOTORCYCLE', $specialRequests = []): static
+    public static function make($scheduleAt, string $language, array $stops, Item $item, $serviceType = 'MOTORCYCLE', $specialRequests = []): self
     {
         $instance = new static;
         $instance->set($scheduleAt, $language, $stops, $item, $serviceType, $specialRequests);
@@ -38,7 +38,7 @@ class Quotation
         return $instance;
     }
 
-    protected function set(Carbon|string $scheduleAt, string $language, array $stops, Item $item, string $serviceType, array $specialRequests,)
+    protected function set($scheduleAt, string $language, array $stops, Item $item, string $serviceType, array $specialRequests)
     {
         if ($scheduleAt instanceof Carbon) {
             $this->setScheduleAt($scheduleAt);
@@ -60,17 +60,29 @@ class Quotation
         return $this->scheduleAt;
     }
 
-    public function addSpecialRequest(array|string $request): void
+    /**
+     * @param $request array|string
+     * @return void
+     */
+    public function addSpecialRequest($request): void
     {
         $this->specialRequests = array_merge($this->specialRequests, (array) $request);
     }
 
-    public function addStop(Stop|array $stop): void
+    /**
+     * @param Stop|array $stop
+     * @return void
+     */
+    public function addStop($stop): void
     {
         $this->stops = array_merge($this->stops, (array) $stop);
     }
 
-    public function setItem(Item|array $item)
+    /**
+     * @param Item|array $item
+     * @return void
+     */
+    public function setItem($item)
     {
         $this->item = $item;
     }

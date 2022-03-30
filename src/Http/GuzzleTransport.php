@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Http;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Exception\TransferException;
 use GuzzleHttp\Psr7\Message;
@@ -20,7 +21,7 @@ class GuzzleTransport implements TransportInterface
         $this->client = $client ?? new Client();
     }
 
-    public function send(LalamoveRequest $request): null | stdClass
+    public function send(LalamoveRequest $request): ?stdClass
     {
         $method  = $request->getMethod();
         $uri     = $request->getFullPath();

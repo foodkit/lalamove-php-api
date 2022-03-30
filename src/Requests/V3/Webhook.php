@@ -1,14 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Requests\V3;
 
 class Webhook
 {
     public string $url;
 
-    /**
-     * Address constructor.
-     */
     public function __construct(string $url)
     {
         $this->url = $url;

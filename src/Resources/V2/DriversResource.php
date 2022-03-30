@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Resources\V2;
 
 use Lalamove\Client\V2\Settings;
@@ -9,9 +11,6 @@ use Lalamove\Responses\V2\DriverResponse;
 
 class DriversResource extends AbstractResource
 {
-    /**
-     * OrdersResource constructor.
-     */
     public function __construct(Settings $settings)
     {
         parent::__construct($settings);

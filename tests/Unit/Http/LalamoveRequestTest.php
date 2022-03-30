@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LalamoveTests\Unit\Http;
 
 use Lalamove\Client\V2\Settings;
@@ -11,7 +13,7 @@ use LalamoveTests\Helpers\DummySettings;
 
 class LalamoveRequestTest extends BaseTest
 {
-    protected Settings|DummySettings $settings;
+    protected $settings;
     protected MockedUuidGenerator $uuid;
     protected MockedClock $clock;
 

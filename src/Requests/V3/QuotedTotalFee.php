@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Requests\V3;
 
 class QuotedTotalFee

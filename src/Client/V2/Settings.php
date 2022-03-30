@@ -1,25 +1,28 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Client\V2;
 
 use Psr\Log\LoggerInterface;
 
 class Settings
 {
-    public string|array $host;
+    /** @var string|array */
+    public $host;
     public string $customerId;
     public string $privateKey;
     public string $country;
     public int $version;
     public ?LoggerInterface $logger = null;
 
-    const COUNTRY_HONGKONG = 'HK';
-    const COUNTRY_PHILIPPINES = 'PH';
-    const COUNTRY_SINGAPORE = 'SG';
-    const COUNTRY_THAILAND = 'TH';
-    const COUNTRY_TAIWAN = 'TW';
+    public const COUNTRY_HONGKONG = 'HK';
+    public const COUNTRY_PHILIPPINES = 'PH';
+    public const COUNTRY_SINGAPORE = 'SG';
+    public const COUNTRY_THAILAND = 'TH';
+    public const COUNTRY_TAIWAN = 'TW';
 
-    const VERSION_2 = 2;
+    public const VERSION_2 = 2;
 
     /**
      * Pass in either individual settings:

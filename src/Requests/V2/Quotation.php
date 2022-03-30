@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Requests\V2;
 
 use Carbon\Carbon;
@@ -7,14 +9,15 @@ use Lalamove\Resources\AbstractResource;
 
 class Quotation
 {
-    const SPECIAL_REQUEST_COD = 'COD';
-    const SPECIAL_REQUEST_HELP_BUY = 'HELP_BUY';
-    const SPECIAL_REQUEST_BAG = 'LALABAG';
+    public const SPECIAL_REQUEST_COD = 'COD';
+    public const SPECIAL_REQUEST_HELP_BUY = 'HELP_BUY';
+    public const SPECIAL_REQUEST_BAG = 'LALABAG';
 
-    const FLEET_PRIORITY_NONE = 'NONE';
-    const FLEET_PRIORITY_FLEET_FIRST = 'FLEET_FIRST';
+    public const FLEET_PRIORITY_NONE = 'NONE';
+    public const FLEET_PRIORITY_FLEET_FIRST = 'FLEET_FIRST';
 
-    public Carbon|string $scheduleAt = '';
+    /** @var Carbon|string $scheduledAt */
+    public $scheduleAt = '';
 
     public string $serviceType = 'MOTORCYCLE';
 
@@ -30,7 +33,7 @@ class Quotation
 
     public string $promoCode = '';
 
-    public static function make(string $scheduleAt, Contact $requesterContact, array $stops, array $deliveries, $serviceType = 'MOTORCYCLE', $specialRequests = [], $fleetPriority = 'NONE', $promoCode = ''): static
+    public static function make(string $scheduleAt, Contact $requesterContact, array $stops, array $deliveries, $serviceType = 'MOTORCYCLE', $specialRequests = [], $fleetPriority = 'NONE', $promoCode = ''): self
     {
         $instance = new static;
         $instance->set($scheduleAt, $requesterContact, $stops, $deliveries, $serviceType, $specialRequests, $fleetPriority, $promoCode);
@@ -38,7 +41,7 @@ class Quotation
         return $instance;
     }
 
-    protected function set(Carbon|string $scheduleAt, Contact $requesterContact, array $stops, array $deliveries, string $serviceType, array $specialRequests, string $fleetPriority, string $promoCode)
+    protected function set($scheduleAt, Contact $requesterContact, array $stops, array $deliveries, string $serviceType, array $specialRequests, string $fleetPriority, string $promoCode)
     {
         if ($scheduleAt instanceof Carbon) {
             $this->setScheduleAt($scheduleAt);
@@ -62,17 +65,27 @@ class Quotation
         return $this->scheduleAt;
     }
 
-    public function addSpecialRequest(string|array $request): void
+    /**
+     * @param $request string|array
+     */
+    public function addSpecialRequest($request): void
     {
         $this->specialRequests = array_merge($this->specialRequests, (array) $request);
     }
 
-    public function addStop(Stop|array $stop): void
+    /**
+     * @param $stop Stop|array
+     */
+    public function addStop($stop): void
     {
         $this->stops = array_merge($this->stops, (array) $stop);
     }
 
-    public function addDelivery(Delivery|array $delivery): void
+    /**
+     * @param $deliery Delivery|array
+     * @return void
+     */
+    public function addDelivery($delivery): void
     {
         $this->deliveries = array_merge($this->deliveries, (array) $delivery);
     }

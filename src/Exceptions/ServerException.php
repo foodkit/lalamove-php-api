@@ -1,8 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Exceptions;
 
 class ServerException extends LalamoveException
 {
-    protected static $statusCode = 500;
+    protected static int $statusCode = 500;
 }

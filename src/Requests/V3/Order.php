@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Requests\V3;
 
 class Order
@@ -30,9 +32,6 @@ class Order
         }
     }
 
-    /**
-     * Add order recipients
-     */
     public function addRecipient(Delivery $recipient): void
     {
         $this->recipients = array_merge($this->recipients, $recipient);
@@ -48,9 +47,6 @@ class Order
         $this->isRecipientSMSEnabled = false;
     }
 
-    /**
-     * Manually set partner
-     */
     public function setPartner(string $partner): void
     {
         $this->partner = $partner;

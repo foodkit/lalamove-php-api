@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Http;
 
 use Lalamove\Client\V3\Settings as V3Settings;
@@ -11,7 +13,8 @@ use Lalamove\Http\Uuid\UuidGeneratorInterface;
 
 class LalamoveRequest
 {
-    protected V2Settings|V3Settings $settings;
+    /** @var V2Settings|V3Settings $settings */
+    protected $settings;
 
     protected string $method;
 
@@ -49,7 +52,11 @@ class LalamoveRequest
         $this->clock = $clock;
     }
 
-    protected function object2array(array|object $o): array
+    /**
+     * @param $o array|object
+     * @return array
+     */
+    protected function object2array($o): array
     {
         $a = (array) $o;
         foreach ($a as &$v) {
@@ -164,7 +171,10 @@ class LalamoveRequest
         return $headers;
     }
 
-    public function getSettings(): V2Settings|V3Settings
+    /**
+     * @return V2Settings|V3Settings
+     */
+    public function getSettings()
     {
         return $this->settings;
     }

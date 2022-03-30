@@ -1,12 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LalamoveTests\Helpers;
 
 use Lalamove\Client\V2\Settings;
 
 class DummySettings extends Settings
 {
-    public function __construct(array|string $host = '', string $customerId = '', string $privateKey = '', string $country = '', int $version = 2)
+    public function __construct($host = '', string $customerId = '', string $privateKey = '', string $country = '', int $version = 2)
     {
         parent::__construct([
             // These are NOT real, don't try and use them.

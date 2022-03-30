@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LalamoveTests\Unit;
 
 use Lalamove\Requests\V2\Quotation;

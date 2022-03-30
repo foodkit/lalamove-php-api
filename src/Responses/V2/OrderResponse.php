@@ -1,16 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Responses\V2;
 
 class OrderResponse
 {
-    public string $customerOrderId;
+    public ?string $customerOrderId;
     
-    public string $orderRef;
+    public ?string $orderRef;
 
-    /**
-     * Pass in the deserialized JSON response to populate all relevant fields.
-     */
     public function __construct(object $response = null)
     {
         $this->customerOrderId = $response ? $response->customerOrderId : null;

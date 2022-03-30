@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Responses\V3;
 
 use Lalamove\Requests\V3\Distance;
@@ -24,17 +26,14 @@ class OrderDetailsResponse
     public Distance $distance;
 
     /** @var Stop[] */
-    public array $stops;
+    public array $stops = [];
 
-    /**
-     * Pass in the deserialized JSON response to populate all relevant fields.
-     */
     public function __construct(object $response = null)
     {
         $response = $response->data ?? null;
 
         if (empty($response)) {
-            return null;
+            return;
         }
 
         $this->orderId = $response->orderId ?? null;

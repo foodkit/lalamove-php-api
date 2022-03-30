@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Requests\V2;
 
 class Location
@@ -7,16 +9,13 @@ class Location
     public string $lat;
     public string $lng;
 
-    /**
-     * Location constructor.
-     */
     public function __construct(string $lat, string $lng)
     {
         $this->lat = $lat;
         $this->lng = $lng;
     }
 
-    public static function make(string $lat, string $lng): static
+    public static function make(string $lat, string $lng): self
     {
         return new static($lat, $lng);
     }

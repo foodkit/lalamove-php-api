@@ -8,12 +8,13 @@ use Psr\Log\LoggerInterface;
 
 class Settings
 {
-    const COUNTRY_HONGKONG = 'HK';
-    const COUNTRY_PHILIPPINES = 'PH';
-    const COUNTRY_SINGAPORE = 'SG';
-    const COUNTRY_THAILAND = 'TH';
-    const COUNTRY_TAIWAN = 'TW';
-    const VERSION_3 = 3;
+    public const COUNTRY_HONGKONG = 'HK';
+    public const COUNTRY_PHILIPPINES = 'PH';
+    public const COUNTRY_SINGAPORE = 'SG';
+    public const COUNTRY_THAILAND = 'TH';
+    public const COUNTRY_TAIWAN = 'TW';
+
+    public const VERSION_3 = 3;
     
     public string $host;
     
@@ -27,11 +28,6 @@ class Settings
     
     public ?LoggerInterface $logger = null;
 
-    /**
-     * Pass in either individual settings:
-     *
-     * $settings = new Settings('host.com', 'API_KEY', 'API_SECRET', 'TH', 3)
-     */
     public function __construct(
         $host,
         $apiKey = '',

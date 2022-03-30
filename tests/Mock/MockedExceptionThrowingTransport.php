@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LalamoveTests\Mock;
 
 use Lalamove\Http\LalamoveRequest;
@@ -13,7 +15,7 @@ class MockedExceptionThrowingTransport implements TransportInterface
         $this->ex = $ex;
     }
 
-    public function send(LalamoveRequest $request): null | stdClass
+    public function send(LalamoveRequest $request): ?stdClass
     {
         throw $this->ex;
     }

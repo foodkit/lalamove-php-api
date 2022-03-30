@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LalamoveTests\Integration;
 
 use Lalamove\Requests\V3\Webhook;
@@ -9,6 +11,8 @@ class WebhookTest extends BaseTest
 {
     public function test_it_should_create_webhook()
     {
+        $this->skipIfCredentialsMissing();
+
         // refer to this docs https://developers.lalamove.com/files/webhook.pdf
         // this url is for testing only we can use our own endpoint later
         // make sure your endpoint returns 200 status

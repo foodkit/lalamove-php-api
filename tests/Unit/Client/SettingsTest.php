@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LalamoveTests\Unit\Client;
 
 use Lalamove\Client\V2\Settings;

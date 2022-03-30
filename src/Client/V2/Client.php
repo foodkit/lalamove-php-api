@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Client\V2;
 
 use Lalamove\Resources\V2\DriversResource;

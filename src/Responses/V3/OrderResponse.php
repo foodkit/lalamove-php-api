@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Responses\V3;
 
 use Lalamove\Requests\V3\Stop;

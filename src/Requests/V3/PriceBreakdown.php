@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Requests\V3;
 
 class PriceBreakdown
@@ -18,9 +20,6 @@ class PriceBreakdown
 
     public string $priorityFee;
 
-    /**
-     * Location constructor.
-     */
     public function __construct(
         string $base,
         string $extraMileage,
@@ -48,7 +47,7 @@ class PriceBreakdown
         string $total,
         string $currency,
         string $priorityFee
-    ): static
+    ): self
     {
         return new static(
             $base,

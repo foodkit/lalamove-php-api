@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Requests\V3;
 
 class Delivery
@@ -12,9 +14,6 @@ class Delivery
 
     public string $remarks;
 
-    /**
-     * Delivery constructor.
-     */
     public function __construct(string $stopId, string $name, string $phone, string $remarks = '')
     {
         $this->stopId = $stopId;
@@ -23,7 +22,7 @@ class Delivery
         $this->remarks = $remarks;
     }
 
-    public static function make(string $stopId, string $name, string $phone, string $remarks = ''): static
+    public static function make(string $stopId, string $name, string $phone, string $remarks = ''): self
     {
         return new static($stopId, $name, $phone, $remarks);
     }

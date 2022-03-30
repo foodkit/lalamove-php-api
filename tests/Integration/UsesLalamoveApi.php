@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LalamoveTests\Integration;
 
 use Lalamove\Client\V3\Client;

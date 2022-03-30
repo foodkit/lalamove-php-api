@@ -1,16 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LalamoveTests\Unit\Http;
 
-use Lalamove\Client\V3\Settings;
 use Lalamove\Http\LalamoveRequest;
 use LalamoveTests\BaseTest;
 use LalamoveTests\Helpers\DummySettings;
-use LalamoveTests\Unit\Http\MockedClock;
 
 class V3LalamoveRequestTest extends BaseTest
 {
-    protected Settings|DummySettings $settings;
+    protected $settings;
     protected MockedUuidGenerator $uuid;
     protected MockedClock $clock;
 

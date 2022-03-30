@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace LalamoveTests\Unit\Resources;
 
 use GuzzleHttp\Exception\ClientException;

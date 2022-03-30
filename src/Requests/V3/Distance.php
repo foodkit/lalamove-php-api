@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Requests\V3;
 
 class Distance
@@ -8,16 +10,13 @@ class Distance
 
     public string $unit;
 
-    /**
-     * Distance constructor.
-     */
     public function __construct(string $value, string $unit)
     {
         $this->value = $value;
         $this->unit = $unit;
     }
 
-    public static function make(string $value, string $unit): static
+    public static function make(string $value, string $unit): self
     {
         return new static($value, $unit);
     }

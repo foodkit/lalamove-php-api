@@ -1,27 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Requests\V3;
 
-class Address
+class Sender
 {
-
     public string $displayString;
 
     public string $country;
 
     public string $city;
 
-    public string $floor;
+    public ?string $floor;
 
-    public string $room;
+    public ?string $room;
 
-    public string $remarks;
+    public ?string $remarks;
 
-    /**
-     * Address constructor.
-     */
-    public function __construct(string $displayString, $city = '', $country = '', $floor = null, $room = null, $remarks = null)
-    {
+    public function __construct(
+        string $displayString,
+        string $city = '',
+        string $country = '',
+        ?string $floor = null,
+        ?string $room = null,
+        ?string $remarks = null
+    ) {
         $this->displayString = $displayString;
         $this->city = $city;
         $this->country = $country;
@@ -30,8 +34,14 @@ class Address
         $this->remarks = $remarks;
     }
 
-    public static function make(string $displayString, string $city, string $country, string $floor = null, string $room = null, string $remarks = null)
-    {
+    public static function make(
+        string $displayString,
+        string $city,
+        string $country,
+        ?string $floor = null,
+        ?string $room = null,
+        ?string $remarks = null
+    ) {
         return new static($displayString, $city, $country, $floor, $room, $remarks);
     }
 }

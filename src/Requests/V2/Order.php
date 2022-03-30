@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Requests\V2;
 
 use Lalamove\Responses\V2\QuotationResponse;
@@ -12,7 +14,7 @@ class Order extends Quotation
 
     public bool $sms = true;
 
-    public static function makeFromQuote(Quotation $quotation, QuotationResponse $response, $callerSideCustomerOrderId = '', $sms = true): static
+    public static function makeFromQuote(Quotation $quotation, QuotationResponse $response, $callerSideCustomerOrderId = '', $sms = true): self
     {
         $instance = new static;
         $instance->set(

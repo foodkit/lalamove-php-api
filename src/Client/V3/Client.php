@@ -1,11 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Client\V3;
 
 use Lalamove\Resources\V3\DriversResource;
 use Lalamove\Resources\V3\OrdersResource;
 use Lalamove\Resources\V3\QuotationsResource;
-use GuzzleHttp\Psr7\Response;
 use Lalamove\Resources\V3\WebhookResource;
 
 class Client

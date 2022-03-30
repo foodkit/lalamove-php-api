@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Lalamove\Requests\V3;
 
 class Stop
@@ -14,9 +16,6 @@ class Stop
 
     public string $phone;
 
-    /**
-     * Stop constructor.
-     */
     public function __construct(string $stopId, Location $coordinates, $address = '', $name = '', $phone = '')
     {
         $this->stopId = $stopId;
