@@ -10,7 +10,7 @@ See [https://partnerportal.lalamove.com/](https://partnerportal.lalamove.com/).
 
 ## Design goals ##
 
-* **Lean on the IDE**. We should leverage the IDE (autocompletion) to _help_ the developer to use the library.
+* **Lean on the IDE**. We should leverage the IDE (autocompletion) to help the developer to use the library.
 * **Hide the transport mechanism (HTTP) as much as possible**. Except when absolutely necessary (e.g endpoint configuration, request timeouts), the end user should not be worried about HTTP concepts when using the library.
 * **Interface should be pleasant (or at least unobtrusive) to use**. The library should remove as much friction from the development process as possible.
 
@@ -19,13 +19,13 @@ See [https://partnerportal.lalamove.com/](https://partnerportal.lalamove.com/).
 
 ```
 $ ./vendor/bin/phpunit tests/
-PHPUnit 7.0.2 by Sebastian Bergmann and contributors.
+PHPUnit 9.5.19 #StandWithUkraine
 
-...........                                                       11 / 11 (100%)
+...............................................                   47 / 47 (100%)
 
-Time: 116 ms, Memory: 4.00MB
+Time: 00:09.259, Memory: 10.00 MB
 
-OK (11 tests, 23 assertions)
+OK (47 tests, 142 assertions)
 ```
 
 ## Using the library ##
@@ -42,15 +42,17 @@ $settings = new \Lalamove\Client\V3\Settings(
 
 $client = new Lalamove\Client\V3\Client($settings);
 
+//////
 // Create a quote:
-$quotation = new \Lalamove\Requests\V3\Quotation();
+$quotation = new \Lalamove\Requests\V3\Quotation(/* parameters here */);
 
 // ...prepare the quotation object...
 $quotationResponse = $client->quotations()->create($quotation);
 
 // Get quotation by id
-$quotationDetailsResponse = $client->quotations()->create($quotation->quotationId);
+$quotationDetailsResponse = $client->quotations()->get($quotation->quotationId);
 
+//////
 // Create an order
 // Provide the quotationID and stopId received from create quote and add contact information for both the sender and recipients
 $contact = new \Lalamove\Requests\V3\Contact('Contact Name', '+65991111110', 'stop_id_from_quotation');
@@ -83,6 +85,7 @@ $driver = $client->drivers()->get($details->orderId, $details->driverId);
 // Cancel the order:
 $details = $client->orders()->cancel($orderResponse->orderId);
 
+//////
 // Create webhooks
 $webhook = new \Lalamove\Requests\V3\Webhook('https://webhook.site/fd8ccc58-7447-4122-8a0c-f9c31eb79ad3');
 $webhook = $client->webhooks()->create($webhook));
@@ -113,3 +116,7 @@ try {
 ## Contributing ##
 
 Open a PR against master. Please use PSR-x conventions for everything and include tests.
+
+## License ##
+
+See [LICENSE](LICENSE).
