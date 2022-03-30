@@ -1,5 +1,7 @@
 # Lalamove PHP API #
 
+[![CircleCI](https://circleci.com/gh/foodkit/lalamove-php-api/tree/master.svg?style=svg)](https://circleci.com/gh/foodkit/lalamove-php-api/tree/master)
+
 This provides a PHP wrapper around the Lalamove API.
 
 Built and maintained by [Foodkit](https://foodkit.io).
