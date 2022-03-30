@@ -16,5 +16,5 @@ jobs:
       - save_cache: # special step to save the dependency cache with the `composer.lock` cache key template
           key: composer-{{ checksum "composer.lock" }}
           paths:
-           - vendor
-       - run: ./vendor/bin/phpunit tests/
+            - vendor
+      - run: ./vendor/bin/phpunit tests/
