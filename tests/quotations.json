@@ -1,0 +1,54 @@
+{
+    "data": {
+        "quotationId": "1471722666401517645", 
+        "scheduleAt": "2020-09-01T14:30:00.00Z",
+        "expiresAt": "2020-09-01T14:35:00.00Z",
+        "serviceType": "MOTORCYCLE",
+        "language": "EN_HK",
+        "specialRequests": [
+            "COD",
+            "HELP_BUY", 
+            "LALABAG"
+        ],
+        "stops": [
+            {
+                "stopId": "1231232354",
+                "coordinates": {
+                    "lat": "22.3353139",
+                    "lng": "114.1758402"
+                },
+                "address": "Jl. Perum Dasana"
+            },
+            {
+                "stopId": "1231231231",
+                "coordinates": {
+                    "lat": "22.3203648",
+                    "lng": "114.169773"
+                },
+                "address": "Jl. Kartini, Ruko No. 1E"
+            }
+        ],
+        "isRouteOptimized": false,
+        "priceBreakdown": {
+            "base": "100",
+            "extraMileage": "10",
+            "surcharge": "20",
+            "...": "",
+            "totalBeforeOptimization": "130",
+            "totalExcludePriorityFee": "130",
+            "total": "130",
+            "currency": "THB"
+        },
+        "item":{
+            "quantity":"12",
+            "weight":"LESS_THAN_3_KG",
+            "categories":[
+                "FOOD_DELIVERY",
+                "OFFICE_ITEM"
+            ],
+            "handlingInstructions":[
+                "KEEP_UPRIGHT"
+            ]
+        }
+    }
+}

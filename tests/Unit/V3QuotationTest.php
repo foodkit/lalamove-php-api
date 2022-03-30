@@ -2,10 +2,10 @@
 
 namespace LalamoveTests\Unit;
 
-use Lalamove\Requests\V2\Quotation;
+use Lalamove\Requests\V3\Quotation;
 use LalamoveTests\BaseTest;
 
-class QuotationTest extends BaseTest
+class V3QuotationTest extends BaseTest
 {
     public function test_it_instantiates()
     {

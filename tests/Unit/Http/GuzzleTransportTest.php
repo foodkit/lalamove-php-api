@@ -102,6 +102,76 @@ class GuzzleTransportTest extends BaseTest
         }
     }
 
+    public function test_lalamove_v3_request_response_is_logged_correctly_when_network_exception_thrown()
+    {
+        // Make a request
+        $request = $this->makeRequest('GET', 'v3/orders', []);
+
+        // Mock guzzle client (no real http is done)
+        $fakeGuzzleClient = $this->createMock(Client::class);
+        $fakeGuzzleClient
+            ->expects($this->once())
+            ->method('request')
+            ->willThrowException(new TransferException("network is unavailable"));
+
+        // Mock a logger
+        $mock = $this->createMock(LoggerInterface::class);
+        $mock->expects($this->once())->method('info')->with($this->callback(function ($subject) use ($request) {
+
+            $loggedRequestLooksOkay =
+                preg_match("#^" . $request->getMethod() . "#", $subject) &&
+                preg_match("#" . $request->getUri() . "#", $subject);
+
+            $loggedResponseLooksOkay =
+                preg_match("#network is unavailable#", $subject);
+
+            return $loggedRequestLooksOkay && $loggedResponseLooksOkay;
+        }));
+        $this->settings->logger = $mock;
+
+        // Send request
+        $transport = new GuzzleTransport($fakeGuzzleClient);
+        try {
+            $transport->send($request);
+        } catch (\Throwable $e) {
+            // do nothing here, exception is expected
+        }
+    }
+
+    public function test_lalamove__v3_request_response_is_logged_correctly()
+    {
+        // Make a request
+        $request = $this->makeRequest('GET', 'v3/orders', []);
+
+        // Mock guzzle client (no real http is done)
+        $mockHandler      = new MockHandler([
+            new Response(200, ['ResponseHeader1' => 'KnownValue'], "someBodyPayload"),
+        ]);
+        $handler          = HandlerStack::create($mockHandler);
+        $fakeGuzzleClient = new Client(['handler' => $handler]);
+
+
+        // Mock a logger
+        $mock = $this->createMock(LoggerInterface::class);
+        $mock->expects($this->once())->method('info')->with($this->callback(function ($subject) use ($request) {
+
+            $loggedRequestLooksOkay =
+                preg_match("#^" . $request->getMethod() . "#", $subject) &&
+                preg_match("#" . $request->getUri() . "#", $subject);
+
+            $loggedResponseLooksOkay =
+                preg_match("#ResponseHeader1: KnownValue#", $subject) &&
+                preg_match("#someBodyPayload#", $subject);
+
+            return $loggedRequestLooksOkay && $loggedResponseLooksOkay;
+        }));
+        $this->settings->logger = $mock;
+
+        // Send request
+        $transport = new GuzzleTransport($fakeGuzzleClient);
+        $transport->send($request);
+    }
+
     /**
      * @param $method
      * @param $endpoint

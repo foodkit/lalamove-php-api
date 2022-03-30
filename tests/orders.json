@@ -1,0 +1,49 @@
+{
+    "data": {
+        "orderId": "107900701184",
+        "quotationId": "1471722666401517645",
+        "priceBreakdown": {
+            "base": "100",
+            "extraMileage": "10",
+            "surcharge": "20",
+            "...": "",
+            "totalExcludePriorityFee": "130",
+            "total": "150",
+            "currency": "THB",
+            "priorityFee":"20"
+        },
+        "driverId": "33522",
+        "shareLink": "https://share.lalamove.com/?TH1234556&lang=th_TH&version=2",
+        "status": "COMPLETED",
+        "distance": {
+            "value": "16200", 
+            "unit": "m"
+        },
+        "stops": [
+            {
+                "coordinates": {
+                    "lat": "22.3353139",
+                    "lng": "114.1758402"
+                },
+                "address": "Jl. Perum Dasana",
+                "name": "dodo",
+                "phone": "+660923447537"
+            },
+            {
+                "stopId": "1231231231",
+                "coordinates": {
+                    "lat": "22.3203648",
+                    "lng": "114.169773"
+                },
+                "address": "Jl. Kartini, Ruko No. 1E",
+                "name": "dodo",
+                "phone": "+660923447537",
+                "POD": {
+                    "status": "DELIVERED",
+                    "image": "POD_IMAGE_URL",
+                    "deliveredAt": "2022-01-20T06:26:39.721Z"
+                } 
+            }
+        ]
+    }
+}
