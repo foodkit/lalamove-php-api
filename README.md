@@ -82,6 +82,10 @@ $driver = $client->drivers()->get($details->orderId, $details->driverId);
 
 // Cancel the order:
 $details = $client->orders()->cancel($orderResponse->orderId);
+
+// Create webhooks
+$webhook = new \Lalamove\Requests\V3\Webhook('https://webhook.site/fd8ccc58-7447-4122-8a0c-f9c31eb79ad3');
+$webhook = $client->webhooks()->create($webhook));
 ```
 
 ## Errors ##

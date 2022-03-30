@@ -6,7 +6,6 @@ use Lalamove\Requests\V3\Distance;
 use Lalamove\Requests\V3\Location;
 use Lalamove\Requests\V3\PriceBreakdown;
 use Lalamove\Requests\V3\Stop;
-use stdClass;
 
 class OrderDetailsResponse
 {

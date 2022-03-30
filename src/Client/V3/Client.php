@@ -6,6 +6,7 @@ use Lalamove\Resources\V3\DriversResource;
 use Lalamove\Resources\V3\OrdersResource;
 use Lalamove\Resources\V3\QuotationsResource;
 use GuzzleHttp\Psr7\Response;
+use Lalamove\Resources\V3\WebhookResource;
 
 class Client
 {
@@ -29,5 +30,10 @@ class Client
     public function drivers(): DriversResource
     {
         return new DriversResource($this->settings);
+    }
+
+    public function webhooks(): WebhookResource
+    {
+        return new WebhookResource($this->settings);
     }
 }
