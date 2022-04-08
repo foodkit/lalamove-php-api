@@ -4,10 +4,6 @@ declare(strict_types=1);
 
 namespace LalamoveTests\Unit\Resources;
 
-use GuzzleHttp\Exception\ClientException;
-use GuzzleHttp\Psr7\Request;
-use GuzzleHttp\Psr7\Response;
-use Lalamove\Exceptions\PaymentRequiredException;
 use LalamoveTests\BaseTest;
 use LalamoveTests\Helpers\DummySettings;
 use Lalamove\Http\GuzzleTransport;
