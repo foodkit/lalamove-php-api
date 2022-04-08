@@ -115,20 +115,16 @@ class LalamoveRequest
         $customerId = $this->settings->customerId;
         $privateKey = $this->settings->privateKey;
         $country    = $this->settings->country;
-
+        $country     = $this->settings->country;
         $requestTime = $this->clock->getCurrentTimeInMilliseconds();
+        $uuid        = $this->uuid->getUuid();
+        $uri         = str_replace($this->settings->host, '', $this->getFullPath());
+        $body        = $this->getParams();
+        $method      = $this->getMethod();
 
-        $uuid = $this->uuid->getUuid();
-        $uri  = str_replace($this->settings->host, '', $this->getFullPath());
-
-        $body    = json_encode($this->getParams());
-        $message = "{$requestTime}\r\n{$this->method}\r\n{$uri}\r\n\r\n";
-
-        if ($this->method != 'GET') {
-            $message .= $body;
-        }
-
-        $signature = hash_hmac("sha256", $message, $privateKey);
+        // generate sha256 signature
+        $signatureVerifier = new SignatureVerifier();
+        $signature = $signatureVerifier->calculate($uri, $body, $requestTime, $method, $privateKey);
 
         return [
             'Authorization' => "hmac {$customerId}:{$requestTime}:{$signature}",
