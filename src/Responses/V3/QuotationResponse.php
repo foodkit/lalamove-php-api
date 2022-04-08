@@ -45,11 +45,11 @@ class QuotationResponse
             return;
         }
 
-        $this->quotationId = $responseData->quotationId ?? null;
-        $this->scheduleAt = $responseData->scheduleAt ?? null;
-        $this->expiresAt = $responseData->expiresAt ?? null;
-        $this->serviceType = $responseData->serviceType ?? null;
-        $this->language = $responseData->language ?? null;
+        $this->quotationId = $responseData->quotationId;
+        $this->scheduleAt = $responseData->scheduleAt;
+        $this->expiresAt = $responseData->expiresAt;
+        $this->serviceType = $responseData->serviceType;
+        $this->language = $responseData->language;
         $this->specialRequests = $responseData->specialRequests ?? [];
 
         foreach($responseData->stops ?: [] as $stop) {
@@ -62,7 +62,7 @@ class QuotationResponse
             );
         }
 
-        $this->isRouteOptimized = $responseData->isRouteOptimized ?? null;
+        $this->isRouteOptimized = $responseData->isRouteOptimized;
 
         $this->priceBreakdown = $responseData->priceBreakdown ? new PriceBreakdown(
             $responseData->priceBreakdown->base,

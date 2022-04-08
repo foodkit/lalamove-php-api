@@ -112,9 +112,8 @@ class LalamoveRequest
 
     private function getV2Headers(): array
     {
-        $customerId = $this->settings->customerId;
-        $privateKey = $this->settings->privateKey;
-        $country    = $this->settings->country;
+        $customerId  = $this->settings->customerId;
+        $privateKey  = $this->settings->privateKey;
         $country     = $this->settings->country;
         $requestTime = $this->clock->getCurrentTimeInMilliseconds();
         $uuid        = $this->uuid->getUuid();
@@ -151,7 +150,7 @@ class LalamoveRequest
         $signature = $signatureVerifier->calculate($uri, $body, $requestTime, $method, $secretKey);
         
         $headers = [
-            // Regex:
+            // Regex for hmac:
             // /hmac ([A-Fa-f\d]{32}|(pk_test_|pk_prod_)[A-Fa-f\d]{32}):(\d{13}):([A-Fa-f\d]{64})/
             'Authorization' => "hmac {$publicKey}:{$requestTime}:{$signature}",
             'Accept' => 'application/json',
