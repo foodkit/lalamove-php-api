@@ -2,18 +2,9 @@
 
 [![CircleCI](https://circleci.com/gh/foodkit/lalamove-php-api/tree/master.svg?style=svg)](https://circleci.com/gh/foodkit/lalamove-php-api/tree/master)
 
-This provides a PHP wrapper around the Lalamove API.
+This provides a PHP wrapper around the Lalamove API (v2 and v3). Currently supports PHP >= 7.4|8.1
 
 Built and maintained by [Foodkit](https://foodkit.io).
-
-See [https://partnerportal.lalamove.com/](https://partnerportal.lalamove.com/).
-
-## Design goals ##
-
-* **Lean on the IDE**. We should leverage the IDE (autocompletion) to help the developer to use the library.
-* **Hide the transport mechanism (HTTP) as much as possible**. Except when absolutely necessary (e.g endpoint configuration, request timeouts), the end user should not be worried about HTTP concepts when using the library.
-* **Interface should be pleasant (or at least unobtrusive) to use**. The library should remove as much friction from the development process as possible.
-
 
 ## Running the tests ##
 
@@ -86,7 +77,7 @@ $driver = $client->drivers()->get($details->orderId, $details->driverId);
 $details = $client->orders()->cancel($orderResponse->orderId);
 
 //////
-// Create webhooks
+// Create a webhook
 $webhook = new \Lalamove\Requests\V3\Webhook('https://webhook.site/fd8ccc58-7447-4122-8a0c-f9c31eb79ad3');
 $webhook = $client->webhooks()->create($webhook));
 ```
@@ -116,6 +107,12 @@ try {
 ## Contributing ##
 
 Open a PR against master. Please use PSR-x conventions for everything and include tests.
+
+### Design goals ###
+
+* **Lean on the IDE**. We should leverage the IDE (autocompletion) to help the developer to use the library.
+* **Hide the transport mechanism (HTTP) as much as possible**. Except when absolutely necessary (e.g endpoint configuration, request timeouts), the end user should not be worried about HTTP concepts when using the library.
+* **Interface should be pleasant/unobtrusive to use**. The library should remove as much friction from the development process as possible.
 
 ## License ##
 
