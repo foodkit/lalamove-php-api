@@ -24,7 +24,7 @@ class SignatureVerifier
 
     public function calculate(string $uri, array $body, int $requestTime, string $method, string $secretKey): string
     {
-        $body = json_encode($body);
+        $body = json_encode($body, JSON_UNESCAPED_SLASHES);
         $message = "{$requestTime}\r\n{$method}\r\n{$uri}\r\n\r\n";
 
         if ($this->isNotGetMethod($method)) {
