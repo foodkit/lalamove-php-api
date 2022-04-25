@@ -16,6 +16,8 @@ class Webhook
     
     public const CANCELLED = 'CANCELLED';
 
+    public const REJECTED = 'REJECTED';
+
     public string $url;
 
     public function __construct(string $url)
