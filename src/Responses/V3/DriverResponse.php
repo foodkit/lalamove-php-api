@@ -29,10 +29,8 @@ class DriverResponse
         $this->plateNumber = $response ? $response->plateNumber : '';
         $this->photo = $response ? $response->photo : '';
 
-        $this->coordinates = null;
+        [$lat, $lng] = $response && $response->coordinates ? [$response->coordinates->lat, $response->coordinates->lng] : [null, null];
 
-        if ($response && $response->coordinates) {
-            $this->coordinates = new Location($response->coordinates->lat, $response->coordinates->lng);
-        }
+        $this->coordinates = new Location($lat, $lng);
     }
 }
