@@ -36,8 +36,8 @@ class OrderDetailsResponse
             return;
         }
 
-        $this->orderId = $response->orderId ?? null;
-        $this->quotationId = $response->quotationId ?? null; 
+        $this->orderId = $response->orderId;
+        $this->quotationId = $response->quotationId;
 
         $this->priceBreakdown = $response->priceBreakdown ? new PriceBreakdown(
             $response->priceBreakdown->base,
@@ -49,10 +49,12 @@ class OrderDetailsResponse
             $response->priceBreakdown->priorityFee ?? '',
         ) : null; 
 
-        $this->driverId = $response->driverId ?? null; 
-        $this->shareLink = $response->shareLink ?? null; 
-        $this->status = $response->status ?? null; 
-        $this->distance = $response->distance ? new Distance($response->distance->value, $response->distance->unit) : null;
+        $this->driverId = $response->driverId;
+        $this->shareLink = $response->shareLink;
+        $this->status = $response->status;
+        $this->distance = $response->distance
+            ? new Distance($response->distance->value, $response->distance->unit)
+            : null;
 
         if ($response->stops) {
             foreach($response->stops as $stop) {

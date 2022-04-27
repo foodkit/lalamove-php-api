@@ -10,6 +10,7 @@ use Lalamove\Http\Clock\ClockInterface;
 use Lalamove\Http\Clock\PslTimeClock;
 use Lalamove\Http\Uuid\PslUniqidGenerator;
 use Lalamove\Http\Uuid\UuidGeneratorInterface;
+use Lalamove\Utils\SignatureVerifier;
 
 class LalamoveRequest
 {
@@ -111,23 +112,18 @@ class LalamoveRequest
 
     private function getV2Headers(): array
     {
-        $customerId = $this->settings->customerId;
-        $privateKey = $this->settings->privateKey;
-        $country    = $this->settings->country;
-
+        $customerId  = $this->settings->customerId;
+        $privateKey  = $this->settings->privateKey;
+        $country     = $this->settings->country;
         $requestTime = $this->clock->getCurrentTimeInMilliseconds();
+        $uuid        = $this->uuid->getUuid();
+        $uri         = str_replace($this->settings->host, '', $this->getFullPath());
+        $body        = $this->getParams();
+        $method      = $this->getMethod();
 
-        $uuid = $this->uuid->getUuid();
-        $uri  = str_replace($this->settings->host, '', $this->getFullPath());
-
-        $body    = json_encode($this->getParams());
-        $message = "{$requestTime}\r\n{$this->method}\r\n{$uri}\r\n\r\n";
-
-        if ($this->method != 'GET') {
-            $message .= $body;
-        }
-
-        $signature = hash_hmac("sha256", $message, $privateKey);
+        // generate sha256 signature
+        $signatureVerifier = new SignatureVerifier();
+        $signature = $signatureVerifier->calculate($uri, $body, $requestTime, $method, $privateKey);
 
         return [
             'Authorization' => "hmac {$customerId}:{$requestTime}:{$signature}",
@@ -140,26 +136,21 @@ class LalamoveRequest
 
     private function getV3Headers(): array
     {
-        $secretKey = $this->settings->apiSecret;
-        $country    = $this->settings->country;
-
+        $secretKey   = $this->settings->apiSecret;
+        $country     = $this->settings->country;
         $requestTime = $this->clock->getCurrentTimeInMilliseconds();
+        $uuid        = $this->uuid->getUuid();
+        $uri         = str_replace($this->settings->host, '', $this->getFullPath());
+        $body        = $this->getParams();
+        $method      = $this->getMethod();
+        $publicKey   = $this->settings->apiKey;
 
-        $uuid = $this->uuid->getUuid();
-        $uri  = str_replace($this->settings->host, '', $this->getFullPath());
-
-        $body    = json_encode($this->getParams());
-        $message = "{$requestTime}\r\n{$this->method}\r\n{$uri}\r\n\r\n";
-
-        if ($this->method != 'GET') {
-            $message .= $body;
-        }
-
-        $publicKey = $this->settings->apiKey;
-
-        $signature = hash_hmac('sha256', $message, $secretKey);
+        // generate sha256 signature
+        $signatureVerifier = new SignatureVerifier();
+        $signature = $signatureVerifier->calculate($uri, $body, $requestTime, $method, $secretKey);
+        
         $headers = [
-            // Regex:
+            // Regex for hmac:
             // /hmac ([A-Fa-f\d]{32}|(pk_test_|pk_prod_)[A-Fa-f\d]{32}):(\d{13}):([A-Fa-f\d]{64})/
             'Authorization' => "hmac {$publicKey}:{$requestTime}:{$signature}",
             'Accept' => 'application/json',

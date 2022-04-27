@@ -13,13 +13,19 @@ class Quotation
     public const SPECIAL_REQUEST_HELP_BUY = 'HELP_BUY';
     public const SPECIAL_REQUEST_BAG = 'LALABAG';
 
-    public const FLEET_PRIORITY_NONE = 'NONE';
-    public const FLEET_PRIORITY_FLEET_FIRST = 'FLEET_FIRST';
+    public const SERVICE_TYPE_WALKER = 'WALKER';
+    public const SERVICE_TYPE_MOTORCYCLE = 'MOTORCYCLE';
+    public const SERVICE_TYPE_CAR = 'CAR';
+    public const SERVICE_TYPE_SEDAN = 'SEDAN';
+    public const SERVICE_TYPE_VAN = 'VAN';
+    public const SERVICE_TYPE_TRUCK175 = 'TRUCK175';
+    public const SERVICE_TYPE_TRUCK330 = 'TRUCK330';
+    public const SERVICE_TYPE_TRUCK550 = 'TRUCK550';
 
     /** @var Carbon|string */
     public $scheduleAt = '';
 
-    public string $serviceType = 'MOTORCYCLE';
+    public string $serviceType;
 
     public array $specialRequests = [];
 
@@ -30,8 +36,14 @@ class Quotation
     
     public Item $item;
 
-    public static function make($scheduleAt, string $language, array $stops, Item $item, $serviceType = 'MOTORCYCLE', $specialRequests = []): self
-    {
+    public static function make(
+        $scheduleAt,
+        string $language,
+        array $stops,
+        Item $item,
+        string $serviceType = self::SERVICE_TYPE_MOTORCYCLE,
+        array $specialRequests = []
+    ): self {
         $instance = new static;
         $instance->set($scheduleAt, $language, $stops, $item, $serviceType, $specialRequests);
         
