@@ -28,6 +28,11 @@ class DriverResponse
         $this->phone = $response ? $response->phone : '';
         $this->plateNumber = $response ? $response->plateNumber : '';
         $this->photo = $response ? $response->photo : '';
-        $this->coordinates = $response ? new Location($response->coordinates->lat, $response->coordinates->lng) : null;
+
+        $this->coordinates = null;
+
+        if ($response && $response->coordinates) {
+            $this->coordinates = new Location($response->coordinates->lat, $response->coordinates->lng);
+        }
     }
 }

@@ -14,7 +14,7 @@ class Webhook
     
     public const COMPLETED = 'COMPLETED';
     
-    public const CANCELLED = 'CANCELLED';
+    public const CANCELLED = 'CANCELED';
 
     public const REJECTED = 'REJECTED';
 
