@@ -54,6 +54,8 @@ class OrderTest extends BaseTest
 
         $response = $this->getClient()->orders()->create($order);
 
+        $this->getClient()->orders()->details($response->orderId);
+
         $response = $this->getClient()->orders()->cancel($response->orderId);
 
         $this->assertTrue($response);
