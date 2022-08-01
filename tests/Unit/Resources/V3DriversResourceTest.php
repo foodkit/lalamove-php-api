@@ -8,6 +8,7 @@ use GuzzleHttp\Exception\ClientException;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Lalamove\Exceptions\PaymentRequiredException;
+use Lalamove\Responses\V3\DriverResponse;
 use LalamoveTests\BaseTest;
 use LalamoveTests\Helpers\DummySettings;
 use Lalamove\Http\GuzzleTransport;
@@ -42,5 +43,21 @@ class V3DriversResourceTest extends BaseTest
         $this->assertObjectHasAttribute('plateNumber', $response);
         $this->assertObjectHasAttribute('photo', $response);
         $this->assertObjectHasAttribute('coordinates', $response);
+    }
+
+    public function test_it_parses_missing_coordinates()
+    {
+        $resource = new DriverResponse((object)[
+            'data' => (object) [
+                'driverId' => '000001',
+                'name' => '[_]FIRST LAST',
+                'phone' => '+66000000000, ',
+                'photo' => 'https://sg-upload-appweb.lalamove.com/showhead.php?image_type=5&image_hash=fake_hash_here&driver_id=000001, ',
+                'plateNumber' => '**1234*',
+            ],
+        ]);
+        self::assertInstanceOf(DriverResponse::class, $resource);
+        self::assertEquals('', $resource->coordinates->lat);
+        self::assertEquals('', $resource->coordinates->lng);
     }
 }

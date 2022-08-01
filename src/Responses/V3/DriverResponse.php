@@ -29,8 +29,8 @@ class DriverResponse
         $this->plateNumber = $response ? $response->plateNumber : '';
         $this->photo = $response ? $response->photo : '';
 
-        [$lat, $lng] = $response && $response->coordinates ? [$response->coordinates->lat, $response->coordinates->lng] : ['', ''];
-
+        $lat = $response->coordinates->lat ?? '';
+        $lng = $response->coordinates->lng ?? '';
         $this->coordinates = new Location($lat, $lng);
     }
 }
