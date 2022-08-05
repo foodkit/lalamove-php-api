@@ -52,7 +52,7 @@ class QuotationResponse
         $this->language = $responseData->language;
         $this->specialRequests = $responseData->specialRequests ?? [];
 
-        foreach($responseData->stops ?: [] as $stop) {
+        foreach ($responseData->stops ?: [] as $stop) {
             $this->stops[] = new Stop(
                 $stop->stopId ?? '',
                 $stop->coordinates ? new Location($stop->coordinates->lat, $stop->coordinates->lng) : null,
@@ -64,22 +64,26 @@ class QuotationResponse
 
         $this->isRouteOptimized = $responseData->isRouteOptimized;
 
-        $this->priceBreakdown = $responseData->priceBreakdown ? new PriceBreakdown(
-            $responseData->priceBreakdown->base,
-            $responseData->priceBreakdown->extraMileage ?? '',
-            $responseData->priceBreakdown->surcharge ?? '',
-            $responseData->priceBreakdown->totalExcludePriorityFee ?? '',
-            $responseData->priceBreakdown->total ?? '',
-            $responseData->priceBreakdown->currency ?? '',
-            $responseData->priceBreakdown->priorityFee ?? '',
-        ) : null;
+        if (property_exists($responseData, 'priceBreakdown') && $responseData->priceBreakdown) {
+            $this->priceBreakdown = new PriceBreakdown(
+                $responseData->priceBreakdown->base,
+                $responseData->priceBreakdown->extraMileage ?? '',
+                $responseData->priceBreakdown->surcharge ?? '',
+                $responseData->priceBreakdown->totalExcludePriorityFee ?? '',
+                $responseData->priceBreakdown->total ?? '',
+                $responseData->priceBreakdown->currency ?? '',
+                $responseData->priceBreakdown->priorityFee ?? '',
+            );
+        }
 
-        $this->item = $responseData->item ? new Item(
-            $responseData->item->quantity ?? '',
-            $responseData->item->weight ?? '',
-            $responseData->item->categories ?? [],
-            $responseData->item->handlingInstructions ?? []
-        ) : null;
+        if (property_exists($responseData, 'item') && $responseData->item) {
+            $this->item = new Item(
+                $responseData->item->quantity ?? '',
+                $responseData->item->weight ?? '',
+                $responseData->item->categories ?? [],
+                $responseData->item->handlingInstructions ?? []
+            );
+        }
     }
 
     /**
