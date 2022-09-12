@@ -1,32 +1,32 @@
 {
-    "name": "foodkit/lalamove-php-api",
-    "description": "PHP client for the Lalamove API",
-    "type": "library",
-    "require": {
-        "php": "^7.4|^8.1",
-        "nesbot/carbon": "^2.57.0",
-        "guzzlehttp/guzzle": "^7.4.2",
-        "psr/log": "^1.1"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^9.5",
-        "mockery/mockery": "^1.5"
-    },
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Corey Mcmahon",
-            "email": "corey@foodkit.io"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "Lalamove\\": "src/"
-        }
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "LalamoveTests\\": "tests/"
-        }
+  "name": "foodkit/lalamove-php-api",
+  "description": "PHP client for the Lalamove API",
+  "type": "library",
+  "require": {
+    "php": "^7.4|^8.0",
+    "nesbot/carbon": "^2.57.0",
+    "guzzlehttp/guzzle": "^7.4.2",
+    "psr/log": "^1.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.5",
+    "mockery/mockery": "^1.5"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Corey Mcmahon",
+      "email": "corey@foodkit.io"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Lalamove\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "LalamoveTests\\": "tests/"
+    }
+  }
 }

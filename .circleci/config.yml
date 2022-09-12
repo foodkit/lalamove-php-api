@@ -18,6 +18,23 @@ jobs:
           paths:
             - vendor
       - run: ./vendor/bin/phpunit tests/
+  php80:
+    docker:
+      - image: cimg/php:8.0.22
+    steps:
+      - checkout
+      - run: sudo composer selfupdate
+      - restore_cache: # special step to restore the dependency cache if `composer.lock` does not change
+          keys:
+            - composer-{{ checksum "composer.lock" }}
+            # fallback to using the latest cache if no exact match is found (See https://circleci.com/docs/2.0/caching/)
+            - composer-
+      - run: composer install -n --prefer-dist
+      - save_cache: # special step to save the dependency cache with the `composer.lock` cache key template
+          key: composer-{{ checksum "composer.lock" }}
+          paths:
+            - vendor
+      - run: ./vendor/bin/phpunit tests/
   php81:
     docker:
       - image: cimg/php:8.1.4
@@ -40,4 +57,5 @@ workflows:
   build_and_test:
     jobs:
       - php74
+      - php80
       - php81
